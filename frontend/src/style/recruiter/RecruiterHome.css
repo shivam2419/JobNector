@@ -1,0 +1,86 @@
+.recruiter-home {
+  padding: 40px;
+  background: #f4f7fc;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, #4a90e2, #007aff);
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 16px rgba(0, 122, 255, 0.2);
+}
+
+.welcome-banner h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.dashboard-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: white;
+  flex: 1;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card h2 {
+  font-size: 2rem;
+  color: #007aff;
+  margin-bottom: 8px;
+}
+
+.action-tiles {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.tile {
+  background: white;
+  flex: 1;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.tile:hover {
+  transform: translateY(-5px);
+}
+
+.tile h3 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.tile p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.tile button {
+  padding: 10px 20px;
+  background-color: #007aff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.tile button:hover {
+  background-color: #005fcc;
+}

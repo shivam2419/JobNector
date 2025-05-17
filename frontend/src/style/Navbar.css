@@ -1,0 +1,343 @@
+.navbar-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.navbar-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.navbar-logo-section img {
+  height: 40px;
+  width: 40px;
+}
+.navbar-logo-section h3 {
+  font-family: "Montserrat", sans-serif;
+}
+.navbar-logo-section h3 a {
+  color: black;
+}
+.navbar-links ul {
+  display: flex;
+}
+.navbar-links ul li {
+  list-style-type: none;
+}
+/* Container for dropdown */
+.custom-dropdown {
+  position: relative;
+  cursor: pointer;
+  margin-left: 50px;
+  height: 20px;
+}
+
+/* Dropdown label */
+.custom-dropdown .label {
+  color: black;
+}
+
+/* Dropdown options (hidden by default) */
+.custom-dropdown .options {
+  display: none;
+  position: absolute;
+  top: 100%; /* just below the label */
+  left: 0;
+  background-color: white;
+  color: black;
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-top: 4px;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+}
+
+/* Individual option styling */
+.custom-dropdown .options li {
+  padding: 10px 15px;
+  color: #333;
+  cursor: pointer;
+}
+
+.custom-dropdown .options li:hover {
+  background-color: #ddd;
+}
+
+/* Show options on hover */
+.custom-dropdown:hover .options {
+  display: block;
+}
+
+.navbar-links ul li a {
+  text-decoration: none;
+  color: black;
+  padding: 5px;
+  margin-left: 50px;
+}
+.navbar-links ul li a:hover {
+  border-bottom: 1px solid black;
+}
+.navbar-btns {
+  display: flex;
+}
+.navbar-btns a {
+  text-decoration: none;
+}
+.navbar-btns a:nth-child(1) {
+  border: 1px solid rgb(0, 113, 226);
+  color: rgb(0, 113, 226);
+  width: 100px;
+  text-align: center;
+  padding: 8px;
+  background-color: white;
+  cursor: pointer;
+}
+.navbar-btns a:nth-child(2) {
+  background-color: rgb(0, 113, 226);
+  margin-left: 20px;
+  color: white;
+  text-align: center;
+  width: 100px;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+}
+/* Login System */
+.nav-login,
+.nav-signup {
+  display: flex;
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  margin: auto;
+  margin-top: 10px;
+  height: 80vh;
+  justify-content: center;
+}
+.nav-login-left {
+  width: 40%;
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border: 2px solid rgb(167, 167, 167);
+  border-radius: 10px 0px 0px 10px;
+  border-right: none;
+}
+.nav-signup-left {
+  width: 40%;
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border: 2px solid rgb(167, 167, 167);
+  border-radius: 0px 10px 10px 0px;
+  border-right: left;
+}
+.nav-login-left b,
+.nav-signup-left b {
+  float: right;
+  font-size: 20px;
+  display: none;
+}
+.nav-login-left span,
+.nav-signup-left span {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.nav-login-left img,
+.nav-signup-left img {
+  height: 50px;
+}
+.nav-login-left label,
+.nav-signup-left label {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+.nav-login-left-content,
+.nav-signup-left-content {
+  text-align: center;
+  width: 70%;
+  margin: auto;
+}
+.nav-login-left-content h1,
+.nav-signup-left-content h1 {
+  font-size: 40px;
+}
+.nav-login-left-content p,
+.nav-signup-left-content p {
+  font-size: 18px;
+  color: grey;
+}
+.nav-login-left-content span,
+.nav-signup-left-content span {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.nav-login-left-content span i,
+.nav-signup-left-content span i {
+  margin-right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
+.nav-login-left-content span i:nth-child(1) {
+  color: blue;
+}
+.nav-login-left-content span i:nth-child(2) {
+  color: rgb(185, 71, 5);
+}
+.nav-signup-left-content span i:nth-child(1) {
+  color: blue;
+}
+.nav-signup-left-content span i:nth-child(2) {
+  color: rgb(228, 51, 137);
+}
+.nav-login-left-content input,
+.nav-signup-left-content input {
+  width: 100%;
+  background-color: rgb(226, 240, 255);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* Wrap the input + eye icon */
+.password-container {
+  position: relative;
+  margin: auto;
+}
+
+/* Style for the password input */
+.password-container input {
+  width: 100%;
+  background-color: rgb(226, 240, 255);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* Eye icon styling */
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: gray;
+}
+
+.nav-login-left-content button,
+.nav-signup-left-content button {
+  border: none;
+  padding: 10px;
+  background-color: rgb(0, 113, 226);
+  color: white;
+  border-radius: 10px;
+  width: 200px;
+  margin-bottom: 10px;
+}
+.nav-login-left-content hr,
+.nav-signup-left-content hr {
+  width: 70%;
+}
+
+.nav-login-right {
+  background: url("https://i.pinimg.com/736x/ed/22/ab/ed22ab9cdd0fbc2ed1bbd2313e1372aa.jpg");
+  background-size: cover;
+  padding: 20px;
+  width: 20%;
+  border: 2px solid rgb(167, 167, 167);
+  border-radius: 0px 10px 10px 0px;
+  border-left: none;
+}
+.nav-signup-right {
+  background: url("https://img.freepik.com/premium-photo/simple-blue-background-with-white-circle_1332213-28500.jpg?semt=ais_hybrid&w=740");
+  background-size: cover;
+  padding: 20px;
+  width: 20%;
+  border: 2px solid rgb(167, 167, 167);
+  border-radius: 10px 0px 0px 10px;
+  border-right: none;
+}
+.nav-login-right b {
+  float: right;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+}
+.nav-signup-right b {
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+  position: fixed;
+}
+.nav-login-right-content,
+.nav-signup-right-content {
+  margin-top: 65%;
+  text-align: center;
+  color: white;
+}
+.nav-login-right-content button,
+.nav-signup-right-content button {
+  background-color: white;
+  border: none;
+  padding: 10px;
+  width: 200px;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+.nav-login-right-content button a,
+.nav-signup-right-content button a {
+  color: rgb(6, 0, 76);
+}
+/* Responsive Navbar */
+@media (max-width: 1024px) {
+  .navbar-links ul {
+    display: none;
+  }
+  .nav-login-right,
+  .nav-signup-right {
+    width: 30%;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-links ul {
+    display: none;
+  }
+  .nav-login-right,
+  .nav-signup-right {
+    display: none;
+  }
+  .nav-login-left,
+  .nav-signup-left {
+    width: 70%;
+    border: 2px solid gray;
+  }
+  .nav-login-left b,
+  .nav-signup-left b {
+    display: block;
+  }
+  /* Optional: Add hamburger menu icon here for mobile */
+}
+
+@media (max-width: 480px) {
+  .navbar-logo-section h3 {
+    font-size: 18px;
+  }
+
+  .navbar-btns a:nth-child(1) {
+    width: 70px;
+    padding: 8px;
+    font-size: 14px;
+  }
+  .navbar-btns a:nth-child(2) {
+    width: 70px;
+    padding: 10px;
+    font-size: 14px;
+  }
+}
