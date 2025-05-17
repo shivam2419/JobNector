@@ -14,7 +14,7 @@ export const Navbar = () => {
         <div className="navbar-logo-section">
           <img src={logo} alt="" />
           <h3>
-            <Link>JobNector</Link>
+            <Link to="/">JobNector</Link>
           </h3>
         </div>
         <div className="navbar-links">
