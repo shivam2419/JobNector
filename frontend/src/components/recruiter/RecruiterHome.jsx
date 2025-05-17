@@ -33,7 +33,7 @@ const RecruiterHome = () => {
         <div className="tile">
           <h3>View Candidates</h3>
           <p>Check who applied to your jobs.</p>
-          <button>View List</button>
+          <button><Link to="/posted-jobs">View List</Link></button>
         </div>
         <div className="tile">
           <h3>Analytics</h3>

@@ -1,0 +1,74 @@
+.posted-jobs-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.posted-jobs-container h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.jobs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.job-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+}
+
+.job-card h3 {
+  margin: 0 0 8px 0;
+  color: #0073e6;
+}
+
+.job-card p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.job-card button {
+  margin-top: 12px;
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+}
+
+.job-card button:hover {
+  background-color: #005bb5;
+}
+
+@media (max-width: 480px) {
+  .posted-jobs-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .job-card {
+    padding: 14px 16px;
+  }
+}

@@ -6,6 +6,8 @@ import { HomeCandidate } from "./components/candidate/HomeCandidate";
 import { RecruiterFormWizard } from "./components/recruiter/RecruiterFormWizard";
 import RecruiterHome from "./components/recruiter/RecruiterHome";
 import PostJob from "./components/recruiter/PostJob";
+import ShowCandidates from "./components/recruiter/ShowCandidates ";
+import PostedJobs from "./components/recruiter/PostedJobs";
 const App = () => (
   <Router>
     <Routes>
@@ -14,6 +16,8 @@ const App = () => (
         <Route path="/candidate" element={<HomeCandidate />} />
         <Route path="/recruiter" element={<RecruiterHome/>}/>
         <Route path="/post-job" element={<PostJob/>}/>
+        <Route path="/posted-jobs" element={<PostedJobs/>}/>
+        <Route path="/candidates/:jobId" element={<ShowCandidates />} />
       </Route>
       <Route path="/register" element={<RecruiterFormWizard/>} />
     </Routes>

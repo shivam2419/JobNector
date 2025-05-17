@@ -1,0 +1,73 @@
+.candidates-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fefefe;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.back-btn {
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 24px;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: #005bb5;
+}
+
+.candidates-container h2 {
+  text-align: center;
+  color: #222;
+  margin-bottom: 24px;
+}
+
+.candidate-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.candidate-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.candidate-card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+}
+
+.candidate-card h3 {
+  margin: 0 0 8px 0;
+  color: #0073e6;
+}
+
+.candidate-card p {
+  margin: 6px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .candidates-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .candidate-card {
+    padding: 14px 16px;
+  }
+}
