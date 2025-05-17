@@ -89,7 +89,8 @@ export const Navbar = () => {
             <br />
             <br />
             <button>
-              <Link>Sign In</Link>
+              <Link to="/candidate" onClick={()=>{document.getElementById("navbar-login-section").style.display =
+                "none"}}>Sign In</Link>
             </button>
           </div>
         </div>
@@ -179,7 +180,8 @@ export const Navbar = () => {
             <br />
             <br />
             <button>
-              <Link>Sign In</Link>
+              <Link to="/recruiter" onClick={()=>{document.getElementById("navbar-signup-section").style.display =
+                "none"}}>Sign Up</Link>
             </button>
             <br />
               <Link to="/register" style={{color: "#1e88e5", marginTop: "10px"}}>Create account as Recruiter</Link>

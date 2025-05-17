@@ -28,6 +28,7 @@
   text-align: center;
   color: #222;
   margin-bottom: 24px;
+  font-size: 2rem;
 }
 
 .candidate-list {
@@ -53,6 +54,7 @@
 .candidate-card h3 {
   margin: 0 0 8px 0;
   color: #0073e6;
+  font-size: 1.3rem;
 }
 
 .candidate-card p {
@@ -61,13 +63,72 @@
   font-size: 0.9rem;
 }
 
+/* Tablets and small desktops */
+@media (max-width: 1024px) {
+  .candidates-container {
+    padding: 18px;
+    margin: 30px 20px;
+  }
+
+  .candidates-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .candidate-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .candidate-card p {
+    font-size: 0.88rem;
+  }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+  .candidates-container {
+    padding: 16px;
+    margin: 25px 15px;
+  }
+
+  .candidates-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .candidate-card {
+    padding: 16px 18px;
+  }
+
+  .candidate-card p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile phones */
 @media (max-width: 480px) {
   .candidates-container {
-    margin: 20px;
-    padding: 15px;
+    margin: 20px 10px;
+    padding: 14px;
+  }
+
+  .candidates-container h2 {
+    font-size: 1.5rem;
   }
 
   .candidate-card {
     padding: 14px 16px;
+  }
+
+  .candidate-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .candidate-card p {
+    font-size: 0.83rem;
+  }
+
+  .back-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.95rem;
   }
 }

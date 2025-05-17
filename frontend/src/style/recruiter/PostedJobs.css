@@ -12,6 +12,7 @@
   text-align: center;
   margin-bottom: 24px;
   color: #333;
+  font-size: 2rem;
 }
 
 .jobs-list {
@@ -37,12 +38,13 @@
 .job-card h3 {
   margin: 0 0 8px 0;
   color: #0073e6;
+  font-size: 1.3rem;
 }
 
 .job-card p {
   margin: 4px 0;
   color: #555;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .job-card button {
@@ -62,13 +64,68 @@
   background-color: #005bb5;
 }
 
-@media (max-width: 480px) {
+/* Tablets (portrait and landscape) */
+@media (max-width: 1024px) {
   .posted-jobs-container {
-    margin: 20px;
-    padding: 15px;
+    padding: 18px;
+    margin: 30px auto;
+  }
+
+  .job-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .job-card p {
+    font-size: 0.9rem;
+  }
+
+  .job-card button {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+  .posted-jobs-container {
+    padding: 16px;
+    margin: 25px 15px;
+  }
+
+  .posted-jobs-container h2 {
+    font-size: 1.8rem;
   }
 
   .job-card {
     padding: 14px 16px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .posted-jobs-container {
+    padding: 12px;
+    margin: 20px 10px;
+  }
+
+  .posted-jobs-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .job-card {
+    padding: 12px 14px;
+  }
+
+  .job-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .job-card p {
+    font-size: 0.85rem;
+  }
+
+  .job-card button {
+    width: 100%;
+    font-size: 0.85rem;
+    padding: 10px;
   }
 }
