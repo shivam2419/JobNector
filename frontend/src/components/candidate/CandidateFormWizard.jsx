@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export const CandidateFormWizard = () => {
+  const url = "https://jobnector.onrender.com/";
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -34,7 +35,7 @@ export const CandidateFormWizard = () => {
     const username = formData.firstName.toLowerCase() + "_" + formData.lastName.toLowerCase();
     try {
       // Creating user
-      const userResponse = await fetch("http://127.0.0.1:8000/api/user/", {
+      const userResponse = await fetch(url+"api/user/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -53,7 +54,7 @@ export const CandidateFormWizard = () => {
       }
 
       const userData = await userResponse.json();
-      const usertype = await fetch("http://127.0.0.1:8000/api/user/", {
+      const usertype = await fetch(url+"api/user/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -81,7 +82,7 @@ export const CandidateFormWizard = () => {
       candidateData.append("extracted_keywords", JSON.stringify([]));
 
       const candidateResponse = await fetch(
-        "http://127.0.0.1:8000/api/candidate/",
+        url+"api/candidate/",
         {
           method: "POST",
           body: candidateData,

@@ -20,7 +20,7 @@ const PostJob = () => {
   };
 
   const fetchRecruiterProfile = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/get-recruiter/", {
+    const res = await fetch(url+"api/get-recruiter/", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
@@ -44,7 +44,7 @@ const PostJob = () => {
         description: formData.description,
       };
 
-      const response = await fetch("http://127.0.0.1:8000/api/create-job/", {
+      const response = await fetch(url+"api/create-job/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

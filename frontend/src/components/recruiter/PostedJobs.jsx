@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import "../../style/recruiter/PostedJobs.css";
 
 const PostedJobs = () => {
+  const url = "https://jobnector.onrender.com/";
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/posted-jobs/", {
+        const response = await fetch(url+"api/posted-jobs/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access")}`,
             "Content-Type": "application/json",

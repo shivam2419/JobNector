@@ -55,7 +55,7 @@ export const RecruiterFormWizard = () => {
       recruiterData.append("designation", formData.designation);
 
       const candidateResponse = await fetch(
-        "http://127.0.0.1:8000/api/recruiter/",
+        url+"api/recruiter/",
         {
           method: "POST",
           body: recruiterData,

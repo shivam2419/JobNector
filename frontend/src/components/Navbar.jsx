@@ -12,9 +12,9 @@ import {
 import { FcGoogle } from "react-icons/fc";
 
 export const Navbar = () => {
+  const url = "https://jobnector.onrender.com/";
   const [authenticated, setAuthenticated] = useState(false);
   const username = localStorage.getItem("username");
-
   useEffect(() => {
     if (localStorage.getItem("access")) {
       setAuthenticated(true);
@@ -35,7 +35,7 @@ export const Navbar = () => {
   async function fetchUserType() {
     const token = localStorage.getItem("access"); // your auth token
 
-    const response = await fetch("/api/usertype/", {
+    const response = await fetch(url+"/api/usertype/", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export const Navbar = () => {
     formData.username = formData.username.trimEnd();
     const username = formData.username.replace(/ /g, "_");
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/login/", {
+      const response = await fetch(url+"api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
