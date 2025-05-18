@@ -1,0 +1,75 @@
+.job-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.job-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 5px;
+}
+
+.company-name {
+  font-size: 1.3rem;
+  color: #374151;
+  margin-bottom: 5px;
+}
+
+.location {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.job-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+}
+
+.job-info div {
+  min-width: 120px;
+}
+
+.section-title {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 5px;
+}
+
+.section-content {
+  margin-top: 5px;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+ul {
+  padding-left: 20px;
+  margin-top: 5px;
+  color: #1f2937;
+}
+
+.apply-button {
+  margin-top: 25px;
+  background-color: #2563eb;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+  background-color: #1e40af;
+}

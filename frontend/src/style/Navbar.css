@@ -162,49 +162,38 @@
   width: 70%;
   margin: auto;
 }
-.nav-login-left-content h1,
-.nav-signup-left-content h1 {
+.nav-login-left-content h1 {
   font-size: 40px;
 }
-.nav-login-left-content p,
-.nav-signup-left-content p {
+.nav-login-left-content p {
   font-size: 18px;
   color: grey;
 }
-.nav-login-left-content span,
-.nav-signup-left-content span {
+.nav-login-left-content span {
   text-align: center;
   display: flex;
   justify-content: center;
   width: 100%;
 }
-.nav-login-left-content span i,
-.nav-signup-left-content span i {
+.nav-login-left-content span i{
   margin-right: 20px;
   font-size: 30px;
   cursor: pointer;
 }
-.nav-login-left-content span i:nth-child(1) {
-  color: blue;
-}
-.nav-login-left-content span i:nth-child(2) {
-  color: rgb(185, 71, 5);
-}
-.nav-signup-left-content span i:nth-child(1) {
-  color: blue;
-}
-.nav-signup-left-content span i:nth-child(2) {
-  color: rgb(228, 51, 137);
-}
-.nav-login-left-content input,
-.nav-signup-left-content input {
+.nav-login-left-content input {
   width: 100%;
   background-color: rgb(226, 240, 255);
   border: none;
   border-radius: 10px;
   padding: 10px;
 }
-
+.nav-signup-left-content-section {
+  display: flex;
+  gap: 20px;
+}
+.nav-signup-left-content-section button {
+  width: 250px;
+}
 /* Wrap the input + eye icon */
 .password-container {
   position: relative;

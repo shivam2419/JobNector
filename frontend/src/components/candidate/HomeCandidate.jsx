@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../style/candidate/Home.css";
 export const HomeCandidate = () => {
+  const username = localStorage.getItem("username");
   const recommendedJobs = [
     {
       id: 1,
@@ -110,7 +111,7 @@ export const HomeCandidate = () => {
   return (
     <div>
       <div className="candidate-home-container">
-        <h1>Hi, Shivam!👋</h1>
+        <h1>Hi, {username}!👋</h1>
         <p>Let's help you and your dream career</p>
         <h2>
           Trending on Job<span style={{ color: "orange" }}>Nector</span>🔥
@@ -149,7 +150,7 @@ export const HomeCandidate = () => {
               <p>🕒 {job.duration}</p>
               <div className="job-card-footer">
                 <span className="tag">Internship</span>
-                <a href="#">View details</a>
+                <a href="/jobdetails">View details</a>
               </div>
             </div>
           ))}

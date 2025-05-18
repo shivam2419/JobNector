@@ -1,13 +1,107 @@
-import React from "react";
-import logo from "../assets/JobNector.png";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import logo from "../assets/JobNector.png";
 import "../style/Navbar.css";
-import { useState } from "react";
-import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { FaFacebook, FaInstagram, FaGithub } from "react-icons/fa";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaFacebook,
+  FaInstagram,
+  FaGithub,
+} from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+
 export const Navbar = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    if (localStorage.getItem("access")) {
+      setAuthenticated(true);
+    } else {
+      setAuthenticated(false);
+    }
+  }, []);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+  async function fetchUserType() {
+    const token = localStorage.getItem("access"); // your auth token
+
+    const response = await fetch("/api/usertype/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Failed to fetch user type", response.status);
+      return null;
+    }
+    const data = await response.json();
+    return data; // { user: userId, is_candidate: true/false, is_recruiter: true/false }
+  }
+  const loginUser = async () => {
+    console.log(formData);
+
+    formData.username = formData.username.trimEnd();
+    const username = formData.username.replace(/ /g, "_");
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: formData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert("Login failed: " + (errorData.detail || "Unknown error"));
+        return;
+      }
+
+      const data = await response.json();
+      console.log("JWT Tokens:", data);
+
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+      localStorage.setItem("user_id", data.user_id);
+      localStorage.setItem("username", data.username);
+
+      alert("Login successful!");
+      const userType = fetchUserType();
+      if(userType.is_candidate === true) {
+        window.location.href = "/candidate"; // Redirect after login
+      } else {
+        window.location.href = "/recruiter"; // Redirect after login
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Some error occurred during login");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await loginUser();
+  };
+  const logout = () => {
+    localStorage.removeItem("access"); // Remove your auth token
+    localStorage.removeItem("username"); // Optional: remove other related info
+    window.location.href = "/"; // Redirect to homepage (or login)
+  };
   return (
     <div>
       <nav className="navbar-container">
@@ -37,26 +131,62 @@ export const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-btns">
-          <Link
-            onClick={() => {
-              document.getElementById("navbar-login-section").style.display =
-                "flex";
-            }}
-          >
-            Login
-          </Link>
-          <Link onClick={() => {
-              document.getElementById("navbar-signup-section").style.display =
-                "flex";
-            }}>Register</Link>
+          {authenticated ? (
+            <div
+              className="navbar-profile"
+              style={{ display: "flex", gap: "10px", alignItems: "center" }}
+            >
+              <span
+                style={{ display: "flex", gap: "10px", alignItems: "center" }}
+              >
+                <img
+                  src={
+                    localStorage.getItem("profile")
+                      ? localStorage.getItem("profile")
+                      : "https://cdn-icons-png.flaticon.com/512/7915/7915522.png"
+                  }
+                  alt=""
+                  style={{ height: "40px" }}
+                />
+                <h3>{username}</h3>
+              </span>
+              <Link onClick={logout}>Logout</Link>
+            </div>
+          ) : (
+            <>
+              <Link
+                onClick={() => {
+                  document.getElementById(
+                    "navbar-login-section"
+                  ).style.display = "flex";
+                }}
+              >
+                Login
+              </Link>
+              <Link
+                onClick={() => {
+                  document.getElementById(
+                    "navbar-signup-section"
+                  ).style.display = "flex";
+                }}
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </nav>
+
       <div className="nav-login" id="navbar-login-section">
         <div className="nav-login-left ">
-          <b onClick={() => {
+          <b
+            onClick={() => {
               document.getElementById("navbar-login-section").style.display =
                 "none";
-            }}>X</b>
+            }}
+          >
+            X
+          </b>
           <span>
             <img src={logo} alt="" />
             <label>JobNector</label>
@@ -65,35 +195,53 @@ export const Navbar = () => {
             <h1>Login to Your Account</h1>
             <p>Login using social networks</p>
             <span>
-              <i><FaFacebook /></i>
-              <i><FaInstagram/></i>
-              <i><FaGithub/></i>
-              <i><FcGoogle/></i>
+              <i>
+                <FaFacebook />
+              </i>
+              <i>
+                <FaInstagram />
+              </i>
+              <i>
+                <FaGithub />
+              </i>
+              <i>
+                <FcGoogle />
+              </i>
             </span>
             <hr />
-            <input type="text" placeholder="Enter username" required/>
-            <br /> <br />
-            <div className="password-container">
+            <form onSubmit={handleSubmit}>
               <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
+                type="text"
+                placeholder="Enter username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
                 required
               />
-              <i
-                onClick={() => setShowPassword(!showPassword)}
-                className="eye-icon"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </i>
-            </div>
-            <br />
-            <br />
-            <button>
-              <Link to="/candidate" onClick={()=>{document.getElementById("navbar-login-section").style.display =
-                "none"}}>Sign In</Link>
-            </button>
+              <br /> <br />
+              <div className="password-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <i
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="eye-icon"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </i>
+              </div>
+              <br />
+              <br />
+              <button type="submit">Sign In</button>
+            </form>
           </div>
         </div>
+
         <div className="nav-login-right">
           <b
             onClick={() => {
@@ -107,12 +255,18 @@ export const Navbar = () => {
             <h1>New Here?</h1>
             <p>Sign up and discover a great amount of new opportunity</p>
             <button>
-              <Link onClick={() => {
-              document.getElementById("navbar-login-section").style.display =
-                "none";
-              document.getElementById("navbar-signup-section").style.display =
-                "flex";
-            }}>Sign up</Link>
+              <Link
+                onClick={() => {
+                  document.getElementById(
+                    "navbar-login-section"
+                  ).style.display = "none";
+                  document.getElementById(
+                    "navbar-signup-section"
+                  ).style.display = "flex";
+                }}
+              >
+                Sign up
+              </Link>
             </button>
           </div>
         </div>
@@ -129,62 +283,67 @@ export const Navbar = () => {
           </b>
           <div className="nav-signup-right-content">
             <h1>Welcome Back!</h1>
-            <p>To keep connected with us please login with you personal info.</p>
+            <p>
+              To keep connected with us please login with you personal info.
+            </p>
             <button>
-              <Link onClick={() => {
-              document.getElementById("navbar-login-section").style.display =
-                "flex";
-              document.getElementById("navbar-signup-section").style.display =
-                "none";
-            }}
-            >Sign In</Link>
+              <Link
+                onClick={() => {
+                  document.getElementById(
+                    "navbar-login-section"
+                  ).style.display = "flex";
+                  document.getElementById(
+                    "navbar-signup-section"
+                  ).style.display = "none";
+                }}
+              >
+                Sign In
+              </Link>
             </button>
           </div>
         </div>
         <div className="nav-signup-left ">
-          <b onClick={() => {
+          <b
+            onClick={() => {
               document.getElementById("navbar-signup-section").style.display =
                 "none";
-            }}>X</b>
+            }}
+          >
+            X
+          </b>
           <span>
             <img src={logo} alt="" />
             <label>JobNector</label>
           </span>
           <div className="nav-signup-left-content">
             <h1>Create Account</h1>
-            <p>Signup using social networks</p>
-            <span>
-              <i><FaFacebook /></i>
-              <i><FaInstagram/></i>
-              <i><FaGithub/></i>
-              <i><FcGoogle/></i>
-            </span>
-            <hr />
-            <input type="text" placeholder="Enter username" required/>
-            <br /> <br />
-            <input type="email" placeholder="Enter email" required/>
-            <br /><br />
-            <div className="password-container">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
-                required
-              />
-              <i
-                onClick={() => setShowPassword(!showPassword)}
-                className="eye-icon"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </i>
+            <div className="nav-signup-left-content-section">
+              <button>
+                <Link
+                  to="/register/candidate"
+                  onClick={() => {
+                    document.getElementById(
+                      "navbar-signup-section"
+                    ).style.display = "none";
+                  }}
+                >
+                  Create account as Candidate
+                </Link>
+              </button>
+              <br />
+              <button>
+                <Link
+                  to="/register"
+                  onClick={() => {
+                    document.getElementById(
+                      "navbar-signup-section"
+                    ).style.display = "none";
+                  }}
+                >
+                  Create account as Recruiter
+                </Link>
+              </button>
             </div>
-            <br />
-            <br />
-            <button>
-              <Link to="/recruiter" onClick={()=>{document.getElementById("navbar-signup-section").style.display =
-                "none"}}>Sign Up</Link>
-            </button>
-            <br />
-              <Link to="/register" style={{color: "#1e88e5", marginTop: "10px"}}>Create account as Recruiter</Link>
           </div>
         </div>
       </div>

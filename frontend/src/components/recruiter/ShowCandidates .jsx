@@ -57,6 +57,7 @@ const ShowCandidates = () => {
               <p><strong>Location:</strong> {candidate.city}, {candidate.state}</p>
               <p><strong>Skills:</strong> {candidate.skills.join(', ')}</p>
               <p><strong>Experience:</strong> {candidate.experience} years</p>
+              <button style={{ margin: "10px", backgroundColor: "#007aff", padding: "10px", color: "white", cursor: "pointer"}}>Show Details</button>
             </li>
           ))}
         </ul>
