@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../style/recruiter/PostJob.css";
 
 const PostJob = () => {
+  const url = "https://jobnector.onrender.com/";
   const [formData, setFormData] = useState({
     title: "",
     minSalary: "",

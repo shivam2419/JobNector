@@ -35,7 +35,7 @@ export const Navbar = () => {
   async function fetchUserType() {
     const token = localStorage.getItem("access"); // your auth token
 
-    const response = await fetch(url+"/api/usertype/", {
+    const response = await fetch(url+"api/usertype/", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -54,6 +54,7 @@ export const Navbar = () => {
 
     formData.username = formData.username.trimEnd();
     const username = formData.username.replace(/ /g, "_");
+    console.log(url+"api/login/");
     try {
       const response = await fetch(url+"api/login/", {
         method: "POST",
