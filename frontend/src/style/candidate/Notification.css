@@ -1,0 +1,46 @@
+.notifications {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.notifications h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.notifications ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notifications li {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+.notifications li strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #0077cc;
+}
+
+.notifications li p {
+  margin: 0 0 10px;
+  color: #444;
+}
+
+.notifications li small {
+  font-size: 12px;
+  color: #888;
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export const RecruiterFormWizard = () => {
-  const url = "https://jobnector.onrender.com/";
+  const url = "http://127.0.0.1:8000/";
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -9,6 +9,9 @@ export const RecruiterFormWizard = () => {
     email: "",
     password: "",
     mobile: "",
+    city: "",
+    state: "",
+    country: "",
     company_name: "",
     designation: "",
   });
@@ -45,6 +48,20 @@ export const RecruiterFormWizard = () => {
         return;
       }
       const userData = await userResponse.json();
+      // Marking userType
+      const usertype = await fetch(url+"api/usertype/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          "user" : userData.id,
+          "is_candidate" : false,
+          "is_recruiter" : true
+        }),
+      });
+      if(!usertype.ok) {
+        alert("Error in creating usertype");
+        return;
+      }
       // Now create Candidate profile with user id and FormData (for file upload)
       const recruiterData = new FormData();
       recruiterData.append("user", userData.id); // Assuming you use user ID here
@@ -154,6 +171,33 @@ export const RecruiterFormWizard = () => {
               name="mobile"
               placeholder="Mobile"
               value={formData.mobile}
+              onChange={handleChange}
+              style={{ padding: "10px", margin: "10px", width: "100%" }}
+              required
+            />
+            <br />
+            <input
+              name="city"
+              placeholder="City"
+              value={formData.city}
+              onChange={handleChange}
+              style={{ padding: "10px", margin: "10px", width: "100%" }}
+              required
+            />
+            <br />
+            <input
+              name="state"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleChange}
+              style={{ padding: "10px", margin: "10px", width: "100%" }}
+              required
+            />
+            <br />
+            <input
+              name="country"
+              placeholder="Country"
+              value={formData.country}
               onChange={handleChange}
               style={{ padding: "10px", margin: "10px", width: "100%" }}
               required

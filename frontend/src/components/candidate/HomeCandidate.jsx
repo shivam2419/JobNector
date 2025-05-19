@@ -1,90 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../style/candidate/Home.css";
+import logo from "../../assets/JobNector.png"
 export const HomeCandidate = () => {
   const username = localStorage.getItem("username");
-  const recommendedJobs = [
-    {
-      id: 1,
-      title: "Mern Stack Developer",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-    {
-      id: 2,
-      title: "Full Stack developer",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-    {
-      id: 3,
-      title: "Data analyst",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-    {
-      id: 4,
-      title: "Content writer",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-    {
-      id: 5,
-      title: "Frontend Developer",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-    {
-      id: 6,
-      title: "Django developer",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-    {
-      id: 7,
-      title: "ML Engineer",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-    {
-      id: 8,
-      title: "Cloud analyst",
-      company: "Meta",
-      location: "Chandigarh, India",
-      salary: "20,000-40,000/month",
-      duration: "4 months",
-      type: "Internship",
-      logo: "https://cdn.pixabay.com/photo/2021/12/14/22/29/meta-6871457_960_720.png",
-    },
-  ];
+  const [recommendedJobs, setRecommendedJobs] = useState([]);
+  const url = "http://127.0.0.1:8000/";
+  const fetchJobs  = async () => {
+    try {
+      const response = await fetch(`${url}api/get-jobs/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      console.log(data);
+      if(response.ok) {
+        setRecommendedJobs(data);
+      } else {
+        alert("Some error occured");
+      }
+    } catch(error) {
+      alert(`error occured ${error}`)
+    } 
+  }
+  useEffect(()=> {
+    fetchJobs();
+  }, [])
   const trending = [
     {
       id: 1,
@@ -140,17 +81,17 @@ export const HomeCandidate = () => {
             <div key={job.id} className="job-card">
               <div className="job-card-header">
                 <span className="badge">Actively hiring</span>
-                <img src={job.logo} alt="logo" className="company-logo" />
+                <img src={job.logo ? job.logo : logo} alt="logo" className="company-logo" />
               </div>
               <h3>{job.title}</h3>
               <p className="company-name">{job.company}</p>
               <hr />
-              <p>📍 {job.location}</p>
-              <p>💰 {job.salary}</p>
+              <p>📍 {job.recruiter_details?.city}, {job.recruiter_details?.state}, {job.recruiter_details?.country}</p>
+              <p>💰 Rs. {job.min_salary} - Rs. {job.max_salary} / {job.salary_type}</p>
               <p>🕒 {job.duration}</p>
               <div className="job-card-footer">
                 <span className="tag">Internship</span>
-                <a href="/jobdetails">View details</a>
+                <a href={`/jobdetails/${job.id}`}>View details</a>
               </div>
             </div>
           ))}

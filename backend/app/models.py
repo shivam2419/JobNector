@@ -50,3 +50,9 @@ class Application(models.Model):
     applied_at = models.DateField(auto_now_add=True)
     class Meta:
         unique_together = ('candidate', 'job')
+
+# Notification
+class Notification(models.Model):
+    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+    recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE)
+    message = models.TextField(max_length=500)

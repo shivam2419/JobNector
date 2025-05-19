@@ -12,7 +12,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 
 export const Navbar = () => {
-  const url = "https://jobnector.onrender.com/";
+  const url = "http://127.0.0.1:8000/";
   const [authenticated, setAuthenticated] = useState(false);
   const username = localStorage.getItem("username");
   useEffect(() => {
@@ -21,7 +21,7 @@ export const Navbar = () => {
     } else {
       setAuthenticated(false);
     }
-  }, []);
+  });
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -32,12 +32,13 @@ export const Navbar = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  async function fetchUserType() {
-    const token = localStorage.getItem("access"); // your auth token
+  const fetchUserType = async () => {
+    const token = localStorage.getItem("access");
+    const userId = localStorage.getItem("user_id"); // assuming you stored it at login
 
-    const response = await fetch(url+"api/usertype/", {
+    const response = await fetch(`${url}api/get-usertype/${userId}/`, {
+      method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -46,17 +47,16 @@ export const Navbar = () => {
       console.error("Failed to fetch user type", response.status);
       return null;
     }
-    const data = await response.json();
-    return data; // { user: userId, is_candidate: true/false, is_recruiter: true/false }
-  }
-  const loginUser = async () => {
-    console.log(formData);
 
+    const data = await response.json();
+    return data; // { user: 11, is_candidate: false, is_recruiter: true }
+  };
+
+  const loginUser = async () => {
     formData.username = formData.username.trimEnd();
     const username = formData.username.replace(/ /g, "_");
-    console.log(url+"api/login/");
     try {
-      const response = await fetch(url+"api/login/", {
+      const response = await fetch(url + "api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,10 +82,11 @@ export const Navbar = () => {
       localStorage.setItem("username", data.username);
 
       alert("Login successful!");
-      const userType = fetchUserType();
-      if(userType.is_candidate === true) {
+      const userType = await fetchUserType();
+      if (userType.is_candidate === true) {
         window.location.href = "/candidate"; // Redirect after login
-      } else {
+      }
+      if (userType.is_recruiter === true) {
         window.location.href = "/recruiter"; // Redirect after login
       }
     } catch (error) {
@@ -137,6 +138,7 @@ export const Navbar = () => {
               className="navbar-profile"
               style={{ display: "flex", gap: "10px", alignItems: "center" }}
             >
+              <Link to="/notification" style={{border: 'none', margin: '0px', padding: '0px'}}><img src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png" alt="" style={{height: '30px'}} /></Link>
               <span
                 style={{ display: "flex", gap: "10px", alignItems: "center" }}
               >
@@ -149,7 +151,7 @@ export const Navbar = () => {
                   alt=""
                   style={{ height: "40px" }}
                 />
-                <h3>{username}</h3>
+                {authenticated && username && <h3>{username}</h3>}
               </span>
               <Link onClick={logout}>Logout</Link>
             </div>

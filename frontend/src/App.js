@@ -10,7 +10,8 @@ import ShowCandidates from "./components/recruiter/ShowCandidates ";
 import PostedJobs from "./components/recruiter/PostedJobs";
 import { CandidateFormWizard } from "./components/candidate/CandidateFormWizard";
 import JobDetails from "./components/candidate/JobDetails";
-import PrivateRoute from "./components/PrivateRoute"
+import PrivateRoute from "./components/PrivateRoute";
+import Notification  from "./components/candidate/Notification";
 const App = () => (
   <Router>
     <Routes>
@@ -20,11 +21,12 @@ const App = () => (
         {/* Protected routes wrapped with PrivateRoute */}
         <Route element={<PrivateRoute />}>
           <Route path="/candidate" element={<HomeCandidate />} />
-          <Route path="/jobdetails" element={<JobDetails />} />
+          <Route path="/jobdetails/:job_id" element={<JobDetails />} />
           <Route path="/recruiter" element={<RecruiterHome />} />
           <Route path="/post-job" element={<PostJob />} />
           <Route path="/posted-jobs" element={<PostedJobs />} />
-          <Route path="/candidates/:jobId" element={<ShowCandidates />} />
+          <Route path="/job-candidates/:jobId" element={<ShowCandidates />} />
+          <Route path="/notification" element={<Notification />} />
         </Route>
       </Route>
 
