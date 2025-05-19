@@ -86,8 +86,11 @@ DATABASES = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React dev server
     "http://127.0.0.1:3000",
+    "https://jobnector.onrender.com",
 ]
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://jobnector.onrender.com",
+]
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -134,3 +137,4 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+CORS_ALLOW_CREDENTIALS = True

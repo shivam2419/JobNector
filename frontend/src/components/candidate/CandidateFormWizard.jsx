@@ -54,7 +54,7 @@ export const CandidateFormWizard = () => {
       }
 
       const userData = await userResponse.json();
-      const usertype = await fetch(url+"api/user/", {
+      const usertype = await fetch(url+"api/usertype/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
