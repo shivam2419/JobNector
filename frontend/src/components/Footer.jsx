@@ -40,7 +40,7 @@ export const Footer = () => {
             <br />
             <i>csdslt2309@gltibm.ac.in</i>
             <br />
-            <i>414-A, New Complex hub, Ostresian-24, Banglore, Karnatka</i>
+            <i>414-A, New Complex hub, Ostresian-24, Banglore, Karnataka</i>
         </div>
     </footer>
   )

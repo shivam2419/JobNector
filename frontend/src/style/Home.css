@@ -68,7 +68,7 @@
 /* Home community */
 .home-community {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
 }
 .home-community-member {
   display: flex;
@@ -240,6 +240,9 @@
     height: 50px;
     width: 50px;
   }
+  .home-job-type-content-section {
+    padding: 0;
+  }
   .home-community-member {
     display: block;
   }
@@ -274,7 +277,7 @@
     font-size: 14px;
   }
   .home-reaches-section span p {
-    font-size: 14px;
+    font-size: 12px;
   }
   #hire-btn,
   #apply-job-btn {

@@ -40,10 +40,10 @@ export const Home = () => {
             gateway to smarter recruitment and career growth.
           </p>
           <br />
-          <Link id="hire-btn" to="/hire">
+          <Link id="hire-btn" to="/register">
             I'm Hiring
           </Link>
-          <Link id="apply-job-btn" to="/apply">
+          <Link id="apply-job-btn" to="/register/candidate">
             I want a Job
           </Link>
         </div>

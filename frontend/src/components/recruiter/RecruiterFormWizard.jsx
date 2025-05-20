@@ -104,6 +104,7 @@ export const RecruiterFormWizard = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: 600, margin: "auto" }}>
+      <h1>Recruiter Registration form</h1>
       <div
         style={{
           display: "flex",
