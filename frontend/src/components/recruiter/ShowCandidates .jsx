@@ -39,7 +39,6 @@ const ShowCandidates = () => {
       try {
         const res = await fetch(`${url}api/job-candidates/?job_id=${jobId}`);
         const data = await res.json();
-        console.log(data);
         if (res.ok) {
           setCandidates(data.message); // assuming data is { message: [ ... ] }
           setJobTitle(""); // adjust this based on your serializer
@@ -88,9 +87,9 @@ const ShowCandidates = () => {
                   href={`http://127.0.0.1:8000${candidate.candidate.resume}`}
                   target="_blank"
                   rel="noreferrer"
-                  style={{ color: "black" }}
+                  style={{ color: "blue" }}
                 >
-                  Download {candidate.candidate.resume}
+                  See Resume 
                 </a>
               </p>
 

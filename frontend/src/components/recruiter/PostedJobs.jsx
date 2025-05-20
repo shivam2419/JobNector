@@ -17,7 +17,7 @@ const PostedJobs = () => {
           },
         });
         const data = await response.json();
-        console.log("Jobs fetched:", data); // 👈 Check what’s coming here
+        
 
         if (response.status === 200) {
           setJobs(data);

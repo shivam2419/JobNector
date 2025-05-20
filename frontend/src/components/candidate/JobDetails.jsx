@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../../style/candidate/JobDetails.css";
 
 const JobDetails = () => {
   const { job_id } = useParams();
   const [job, setJob] = useState(null);
+    const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
   const url = "http://127.0.0.1:8000/";
@@ -67,6 +68,9 @@ const JobDetails = () => {
 
   return (
     <div className="job-container">
+      <button className="back-btn" onClick={() => navigate(-1)}>
+        ← Back to Jobs
+      </button>
       <div className="job-title">{job.title}</div>
       <div className="company-name">
         {job.recruiter_details?.company_name || "N/A"}

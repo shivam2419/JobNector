@@ -56,7 +56,6 @@ const PostJob = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Job created:", data);
         alert("Job posted successfully!");
         setFormData({
           title: "",

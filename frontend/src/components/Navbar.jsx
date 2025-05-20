@@ -75,11 +75,13 @@ export const Navbar = () => {
 
       const data = await response.json();
       console.log("JWT Tokens:", data);
-
+      console.log(data.resume_url)
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("username", data.username);
+      localStorage.setItem("resume_url", data.resume_url);
+      localStorage.setItem("skills", JSON.stringify(data.skills));
 
       alert("Login successful!");
       const userType = await fetchUserType();
@@ -136,9 +138,8 @@ export const Navbar = () => {
           {authenticated ? (
             <div
               className="navbar-profile"
-              style={{ display: "flex", gap: "10px", alignItems: "center" }}
             >
-              <Link to="/notification" style={{border: 'none', margin: '0px', padding: '0px'}}><img src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png" alt="" style={{height: '30px'}} /></Link>
+              <Link to="/notification" style={{border: 'none', margin: '0px', padding: '0px'}}><img src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png" alt="" /></Link>
               <span
                 style={{ display: "flex", gap: "10px", alignItems: "center" }}
               >
@@ -149,11 +150,10 @@ export const Navbar = () => {
                       : "https://cdn-icons-png.flaticon.com/512/7915/7915522.png"
                   }
                   alt=""
-                  style={{ height: "40px" }}
                 />
                 {authenticated && username && <h3>{username}</h3>}
               </span>
-              <Link onClick={logout}>Logout</Link>
+              <Link onClick={logout} style={{color: "blue", border: "1px solid blue", padding: "8px"}}>Logout</Link>
             </div>
           ) : (
             <>

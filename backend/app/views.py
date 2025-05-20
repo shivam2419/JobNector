@@ -22,12 +22,23 @@ class CustomLoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             refresh = RefreshToken.for_user(user)
-            return Response({
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-                "user_id": user.id,
-                "username": user.username,
-            })
+            if hasattr(user, 'candidate'):
+                return Response({
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                    "user_id": user.id,
+                    "username": user.username,
+                    "resume_url": str(user.candidate.resume),
+                    "skills": user.candidate.extracted_keywords,
+                })
+            else:
+                return Response({
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                    "user_id": user.id,
+                    "username": user.username,
+                })
+
         else:
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 

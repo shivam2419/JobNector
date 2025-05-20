@@ -104,6 +104,14 @@
   border: none;
   cursor: pointer;
 }
+.navbar-btns .navbar-profile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.navbar-btns .navbar-profile img{
+  height: 40px;
+}
 /* Login System */
 .nav-login,
 .nav-signup {
@@ -315,13 +323,25 @@
 }
 
 @media (max-width: 480px) {
+  .navbar-logo-section img {
+    height: fit-content;
+    width: 70px;
+  }
   .navbar-logo-section h3 {
-    font-size: 18px;
+    display: none;
+  }
+  .navbar-btns .navbar-profile {
+    gap: 10px;
+  }
+  .navbar-btns .navbar-profile img {
+    height: 30px;
+  }
+  .navbar-logo-section h3 {
+    font-size: 16px;
   }
 
   .navbar-btns a:nth-child(1) {
-    width: 70px;
-    padding: 8px;
+    width: 40px;
     font-size: 14px;
   }
   .navbar-btns a:nth-child(2) {

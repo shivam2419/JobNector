@@ -36,9 +36,10 @@ class Job(models.Model):
     title = models.CharField(max_length=100)
     min_salary = models.IntegerField()
     max_salary = models.IntegerField()
-    salary_type = models.CharField(100, null=True)
+    salary_type = models.CharField(max_length=100, null=True)
     duration = models.CharField(max_length=20)
     description = models.TextField()
+    skills = models.JSONField(blank=True, default=list)
     class Meta:
         unique_together = ('recruiter', 'title', 'description')
         
