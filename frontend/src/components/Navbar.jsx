@@ -12,7 +12,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 
 export const Navbar = () => {
-  const url = "http://127.0.0.1:8000/";
+  const url = "https://jobnector.onrender.com/";
   const [authenticated, setAuthenticated] = useState(false);
   const username = localStorage.getItem("username");
 

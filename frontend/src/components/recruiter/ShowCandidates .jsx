@@ -7,11 +7,11 @@ const ShowCandidates = () => {
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState([]);
   const [jobTitle, setJobTitle] = useState("");
-  const url = "http://127.0.0.1:8000/";
+  const url = "https://jobnector.onrender.com";
 
   const updateApplicationStatus = async (applicationId, newStatus) => {
     try {
-      const res = await fetch(url+"api/accept-application/", {
+      const res = await fetch(url+"/api/accept-application/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const ShowCandidates = () => {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const res = await fetch(`${url}api/job-candidates/?job_id=${jobId}`);
+        const res = await fetch(`${url}/api/job-candidates/?job_id=${jobId}`);
         const data = await res.json();
         if (res.ok) {
           setCandidates(data.message); // assuming data is { message: [ ... ] }
@@ -84,7 +84,7 @@ const ShowCandidates = () => {
               <p>
                 <strong>Resume:</strong>{" "}
                 <a
-                  href={`http://127.0.0.1:8000${candidate.candidate.resume}`}
+                  href={`${url}${candidate.candidate.resume}`}
                   target="_blank"
                   rel="noreferrer"
                   style={{ color: "blue" }}

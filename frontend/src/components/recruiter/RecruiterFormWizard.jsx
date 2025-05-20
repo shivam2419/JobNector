@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export const RecruiterFormWizard = () => {
-  const url = "http://127.0.0.1:8000/";
+  const url = "https://jobnector.onrender.com/";
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: "",

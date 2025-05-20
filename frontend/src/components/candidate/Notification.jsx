@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import "../../style/candidate/Notification.css";
 const Notification = () => {
+  const backendUrl = "https://jobnector.onrender.com/";
   const userId = localStorage.getItem("user_id");
   const [notifications, setNotifications] = useState([]);
 
   const fetchNotifications = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/notifications/${userId}/`
+        `${backendUrl}api/notifications/${userId}/`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch notifications");

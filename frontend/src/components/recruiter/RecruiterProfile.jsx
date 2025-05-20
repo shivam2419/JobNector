@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../style/Profile.css";
 
 const RecruiterProfile = () => {
-  const backendUrl = "http://127.0.0.1:8000";
+  const backendUrl = "https://jobnector.onrender.com";
   const [recruiter, setRecruiter] = useState(null);
   const [formData, setFormData] = useState({
     company_name: "",

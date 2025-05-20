@@ -16,7 +16,7 @@ export const HomeCandidate = () => {
   const [keywords, setKeywords] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const url = "http://127.0.0.1:8000/";
+  const url = "https://jobnector.onrender.com/";
 
   const fetchJobs = async () => {
     try {

@@ -8,7 +8,7 @@ const JobDetails = () => {
     const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
-  const url = "http://127.0.0.1:8000/";
+  const url = "https://jobnector.onrender.com/";
 
   useEffect(() => {
     const fetchJobDetails = async () => {

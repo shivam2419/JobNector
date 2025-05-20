@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../../style/recruiter/PostedJobs.css";
 
 const PostedJobs = () => {
-  const url = "http://127.0.0.1:8000/";
+  const url = "https://jobnector.onrender.com/";
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
 

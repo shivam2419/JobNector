@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const backendUrl = "http://127.0.0.1:8000";
+const backendUrl = "https://jobnector.onrender.com";
 
 const EditJob = () => {
   const { jobId } = useParams(); 
