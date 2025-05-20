@@ -330,6 +330,14 @@
 }
 
 @media (max-width: 550px) {
+  #navbar-login-btn {
+    width: 70px;
+    padding: 5px;
+  }
+  #navbar-register-btn {
+    width: 70px;
+    padding: 7px;
+  }
   .navbar-logo-section img {
     height: fit-content;
     width: 70px;
