@@ -1,7 +1,9 @@
 .navbar-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  padding: 0px 20px;
+  flex-wrap: wrap;
 }
 .navbar-logo-section {
   display: flex;
@@ -85,7 +87,7 @@
 .navbar-btns a {
   text-decoration: none;
 }
-.navbar-btns a:nth-child(1) {
+#navbar-login-btn {
   border: 1px solid rgb(0, 113, 226);
   color: rgb(0, 113, 226);
   width: 100px;
@@ -94,15 +96,20 @@
   background-color: white;
   cursor: pointer;
 }
-.navbar-btns a:nth-child(2) {
+#navbar-register-btn {
   background-color: rgb(0, 113, 226);
-  margin-left: 20px;
   color: white;
+  margin-left: 20px;
   text-align: center;
   width: 100px;
-  padding: 8px;
   border: none;
+  padding: 8px;
   cursor: pointer;
+}
+#logout-btn {
+  border: 1px solid blue;
+  padding: 8px;
+  color: blue;
 }
 .navbar-btns .navbar-profile {
   display: flex;
@@ -322,7 +329,7 @@
   /* Optional: Add hamburger menu icon here for mobile */
 }
 
-@media (max-width: 480px) {
+@media (max-width: 550px) {
   .navbar-logo-section img {
     height: fit-content;
     width: 70px;
@@ -345,8 +352,11 @@
     font-size: 14px;
   }
   .navbar-btns a:nth-child(2) {
-    width: 70px;
-    padding: 10px;
+    width: auto;
+    font-size: 14px;
+  }
+  #logout-btn {
+    padding: 5px;
     font-size: 14px;
   }
 }

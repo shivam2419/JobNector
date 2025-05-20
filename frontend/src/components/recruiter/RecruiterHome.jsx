@@ -5,7 +5,7 @@ const RecruiterHome = () => {
   return (
     <div className="recruiter-home">
       <div className="welcome-banner">
-        <h1>Welcome Back, Recruiter!</h1>
+        <h1>Welcome Back, {localStorage.getItem("username").toUpperCase()}!</h1>
         <p>Manage your postings and find the best talent.</p>
       </div>
 
@@ -38,7 +38,7 @@ const RecruiterHome = () => {
         <div className="tile">
           <h3>Analytics</h3>
           <p>Track job performance and engagement.</p>
-          <button>View Report</button>
+          <button><Link to="/recruiter-dashboard">View Report</Link></button>
         </div>
       </div>
     </div>

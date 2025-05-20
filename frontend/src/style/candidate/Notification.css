@@ -1,46 +1,49 @@
 .notifications {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fefefe;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
+  background-color: #f8f9fa; /* Light background for the notifications area */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Padding around the content */
+  max-width: 600px; /* Max width for a better layout */
+  margin: 20px auto; /* Center the notifications box horizontally */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .notifications h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
-  text-align: center;
+  font-size: 24px; /* Title font size */
+  color: #333; /* Dark color for the title */
+  text-align: center; /* Center the title */
+  margin-bottom: 15px; /* Space below the title */
 }
 
 .notifications ul {
-  list-style-type: none;
-  padding: 0;
+  list-style-type: none; /* Remove default list styling */
+  padding: 0; /* Remove padding */
 }
 
 .notifications li {
-  margin-bottom: 20px;
-  padding: 15px;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  background-color: #fafafa;
+  padding: 15px; /* Padding for each notification item */
+  border: 1px solid #ddd; /* Border around each notification */
+  border-radius: 4px; /* Rounded corners for notification items */
+  margin-bottom: 10px; /* Space between notification items */
 }
 
 .notifications li strong {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 8px;
-  color: #0077cc;
+  display: block; /* Make title take the full width */
+  font-size: 18px; /* Slightly larger font for the title */
+  margin-bottom: 5px; /* Space below the title */
 }
 
 .notifications li p {
-  margin: 0 0 10px;
-  color: #444;
+  margin: 0; /* Remove margin */
 }
 
-.notifications li small {
-  font-size: 12px;
-  color: #888;
+/* Styles for accepted notifications */
+.accepted {
+  background-color: #e0f7e0; /* Light green background */
+  border-left: 5px solid #4caf50; /* Green border on the left */
+}
+
+/* Styles for rejected notifications */
+.rejected {
+  background-color: #f8d7da; /* Light red background */
+  border-left: 5px solid #dc3545; /* Red border on the left */
 }

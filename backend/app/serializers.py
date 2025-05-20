@@ -49,6 +49,7 @@ class CandidateSerializer(serializers.ModelSerializer):
 # --- Recruiter ---
 class RecruiterSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Recruiter

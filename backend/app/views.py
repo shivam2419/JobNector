@@ -64,7 +64,29 @@ class CurrentCandidateView(APIView):
             return Response(serializer.data)
         except Candidate.DoesNotExist:
             return Response({"detail": "Candidate profile not found."}, status=404)
+    def patch(self, request, user_id):
+        try:
+            candidate = Candidate.objects.get(user__id=user_id)
+        except Candidate.DoesNotExist:
+            return Response({"error": "Candidate not found"}, status=404)
+
+        serializer = CandidateSerializer(candidate, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
         
+class CandidateUpdateByUserId(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, user_id):
+        candidate = get_object_or_404(Candidate, user__id=user_id)
+        serializer = CandidateSerializer(candidate, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class CurrentRecruiterView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -191,7 +213,7 @@ class AcceptApplicationView(APIView):
             )
 
         # Send appropriate notification
-        recruiter_name = str(application.job.recruiter)
+        recruiter_name = str(application.job.recruiter.user)
         message = f"Your application has been {new_status.lower()} by {recruiter_name}"
         
         Notification.objects.create(
@@ -240,6 +262,7 @@ class RecruiterViewSet(viewsets.ModelViewSet):
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated]
 
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()

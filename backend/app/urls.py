@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/get-usertype/<str:user_id>/', CurrentUserTypeView.as_view(), name='current-user-type'),
     path('api/get-candidate/', CurrentCandidateView.as_view(), name='current-candidate'),
     path('api/get-recruiter/', CurrentRecruiterView.as_view(), name='current-recruiter'),
+    path('api/candidate/update_by_user/<int:user_id>/', CandidateUpdateByUserId.as_view(), name='candidate-update-by-user'),
     path('api/posted-jobs/', PostedJobsView.as_view(), name='posted-jobs'),
     path('api/get-jobs/', GetAllJobsView.as_view(), name='posted-jobs'),
     path('api/job/<int:job_id>/', GetJobDetailView.as_view(), name='get-job-detail'),

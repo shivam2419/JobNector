@@ -12,6 +12,10 @@ import { CandidateFormWizard } from "./components/candidate/CandidateFormWizard"
 import JobDetails from "./components/candidate/JobDetails";
 import PrivateRoute from "./components/PrivateRoute";
 import Notification  from "./components/candidate/Notification";
+import RecruiterDashboard from "./components/recruiter/RecruiterDashboard";
+import EditJob from "./components/recruiter/EditJob";
+import RecruiterProfile from "./components/recruiter/RecruiterProfile";
+import CandidateProfile from "./components/candidate/CandidateProfile";
 const App = () => (
   <Router>
     <Routes>
@@ -20,13 +24,19 @@ const App = () => (
 
         {/* Protected routes wrapped with PrivateRoute */}
         <Route element={<PrivateRoute />}>
+        {/* Candidate  pages from here */}
           <Route path="/candidate" element={<HomeCandidate />} />
           <Route path="/jobdetails/:job_id" element={<JobDetails />} />
+          <Route path="/notification" element={<Notification />} />
+          <Route path="/profile" element={<CandidateProfile />} />
+          {/* Recuiter pages from here */}
           <Route path="/recruiter" element={<RecruiterHome />} />
           <Route path="/post-job" element={<PostJob />} />
           <Route path="/posted-jobs" element={<PostedJobs />} />
           <Route path="/job-candidates/:jobId" element={<ShowCandidates />} />
-          <Route path="/notification" element={<Notification />} />
+          <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
+          <Route path="/edit-job/:jobId" element={<EditJob />} />
+          <Route path="/recruiter-profile" element={<RecruiterProfile />} />
         </Route>
       </Route>
 
