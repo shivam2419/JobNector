@@ -98,7 +98,7 @@ export const RecruiterFormWizard = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="signup-form-container">
       <h1>Recruiter Registration</h1>
 
       <div className="step-tabs">
@@ -106,7 +106,7 @@ export const RecruiterFormWizard = () => {
         <span className={step === 2 ? "active" : ""}>2. Company</span>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="recruiter-signup-form">
         {step === 1 && (
           <>
             <h3>Personal Details</h3>

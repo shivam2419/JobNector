@@ -9,7 +9,7 @@ const RecruiterHome = () => {
   return (
     <div className="recruiter-home" style={{ padding: "30px", margin: "auto" }}>
       <div className="welcome-banner" style={{ textAlign: "center", marginBottom: "40px" }}>
-        <h1 style={{ fontSize: "32px", fontWeight: "700" }}>
+        <h1 style={{ fontSize: "32px", fontWeight: "700", color: "white" }}>
           👋 Welcome Back, {username?.replace(/_/g, " ")?.toUpperCase()}!
         </h1>
         <p style={{ fontSize: "18px", color: "#fff" }}>Manage your postings and find the best talent.</p>
