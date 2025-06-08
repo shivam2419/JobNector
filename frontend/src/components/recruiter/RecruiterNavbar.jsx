@@ -5,6 +5,7 @@ import "../../style/recruiter/RecruiterNavbar.css";
 const RecruiterNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const username = localStorage.getItem("username");
 
   const logout = () => {
     localStorage.removeItem("access");
@@ -20,7 +21,7 @@ const RecruiterNavbar = () => {
     <nav className="recruiter-navbar">
       <div className="navbar-top">
         <Link className="brand" to="/recruiter">
-          Recruiter Panel
+          {username?.replace(/_/g, " ")?.toUpperCase()}
         </Link>
         <button
           className="hamburger"

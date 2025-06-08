@@ -17,6 +17,7 @@ const CandidateProfile = () => {
       .then((data) => {
         setCandidate(data);
         setFormData({ ...data });
+        console.log(data);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -49,7 +50,8 @@ const CandidateProfile = () => {
       }
 
       const data = await response.json();
-      const skills = data.data.skills?.map((s) => s.name || s).filter(Boolean) || [];
+      const skills =
+        data.data.skills?.map((s) => s.name || s).filter(Boolean) || [];
       localStorage.setItem("skills", JSON.stringify(skills));
     } catch (err) {
       console.error("Resume upload error:", err);
@@ -83,7 +85,9 @@ const CandidateProfile = () => {
     }
 
     fetch(
-      `${backendUrl}/api/candidate/update_by_user/${localStorage.getItem("user_id")}/`,
+      `${backendUrl}/api/candidate/update_by_user/${localStorage.getItem(
+        "user_id"
+      )}/`,
       {
         method: "PATCH",
         headers: {
@@ -99,10 +103,10 @@ const CandidateProfile = () => {
       .then(() => {
         alert("Profile updated successfully!");
         window.location.reload();
-      setUpdated(true);
+        setUpdated(true);
       })
       .catch((err) => console.error(err));
-      setUpdated(true);
+    setUpdated(true);
   };
 
   if (!formData || !candidate)
@@ -114,37 +118,65 @@ const CandidateProfile = () => {
       <form onSubmit={handleSubmit}>
         <label>
           Phone Number:
-          <input name="phone_number" value={formData.phone_number} onChange={handleChange} />
+          <input
+            name="phone_number"
+            value={formData.phone_number || ""}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           City:
-          <input name="city" value={formData.city} onChange={handleChange} />
+          <input
+            name="city"
+            value={formData.city || ""}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           State:
-          <input name="state" value={formData.state} onChange={handleChange} />
+          <input
+            name="state"
+            value={formData.state || ""}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           Country:
-          <input name="country" value={formData.country} onChange={handleChange} />
+          <input
+            name="country"
+            value={formData.country || ""}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           Qualification:
-          <input name="qualification" value={formData.qualification} onChange={handleChange} />
+          <input
+            name="qualification"
+            value={formData.qualification || ""}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           School:
-          <input name="school" value={formData.school} onChange={handleChange} />
+          <input
+            name="school"
+            value={formData.school || ""}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           Pass Out Year:
-          <input name="pass_out_year" value={formData.pass_out_year} onChange={handleChange} />
+          <input
+            name="pass_out_year"
+            value={formData.pass_out_year || ""}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
@@ -165,7 +197,9 @@ const CandidateProfile = () => {
           />
         </label>
 
-        <button type="submit">{updated ? "Update Profile" : "Updating..."}</button>
+        <button type="submit">
+          {updated ? "Update Profile" : "Updating..."}
+        </button>
       </form>
     </div>
   );

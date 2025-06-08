@@ -95,7 +95,6 @@ export const Navbar = () => {
       localStorage.setItem("username", data.username);
       localStorage.setItem("resume_url", data.resume_url);
       localStorage.setItem("skills", JSON.stringify(data.skills));
-      alert("Login successful!");
 
       const userType = await fetchUserType();
       setLoading(false);

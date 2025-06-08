@@ -63,12 +63,12 @@ class CurrentCandidateView(APIView):
             serializer = CandidateSerializer(candidate)
             return Response(serializer.data)
         except Candidate.DoesNotExist:
-            return Response({"detail": "Candidate profile not found."}, status=404)
+            return Response({"Error": "Candidate profile not found."}, status=404)
     def patch(self, request, user_id):
         try:
             candidate = Candidate.objects.get(user__id=user_id)
         except Candidate.DoesNotExist:
-            return Response({"error": "Candidate not found"}, status=404)
+            return Response({"Error": "Candidate not found"}, status=404)
 
         serializer = CandidateSerializer(candidate, data=request.data, partial=True)
         if serializer.is_valid():
@@ -118,7 +118,7 @@ class PostedJobsView(ListAPIView):
         
 class GetAllJobsView(APIView):
     def get(self, request):
-        jobs = Job.objects.all()  # Optional: latest first
+        jobs = Job.objects.all().order_by('-created_at') 
         serializer = JobSerializer(jobs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

@@ -131,11 +131,12 @@
 }
 
 .badge {
-  background: #e0f2ff;
   color: #1e88e5;
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 8px 8px;
   border-radius: 999px;
+  width: 100%;
+  text-align: left;
 }
 
 .company-logo {

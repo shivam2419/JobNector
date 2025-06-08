@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../style/candidate/Home.css";
-import logo from "../../assets/JobNector.png";
+import loader from "../../assets/loader.gif";
 
 const cleanSkill = (skill) =>
-  skill
-    .toLowerCase()
-    .replace(/\s*\(.*?\)\s*/g, "")
-    .trim();
+  skill.toLowerCase().replace(/\s*\(.*?\)\s*/g, "").trim();
 
 export const HomeCandidate = () => {
   const username = localStorage.getItem("username");
@@ -19,6 +16,7 @@ export const HomeCandidate = () => {
   const url = "https://jobnector.onrender.com/";
 
   const fetchJobs = async () => {
+    setLoading(true); // Start loading
     try {
       const response = await fetch(`${url}api/get-jobs/`, {
         method: "GET",
@@ -32,14 +30,14 @@ export const HomeCandidate = () => {
       }
     } catch (error) {
       alert(`Error occurred: ${error}`);
+    } finally {
+      setLoading(false); // Stop loading when done
     }
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchJobs();
 
-    // Get skills from localStorage here:
     const storedSkillsRaw = localStorage.getItem("skills");
     let storedSkills = [];
     try {
@@ -48,11 +46,8 @@ export const HomeCandidate = () => {
       console.error("Failed to parse skills from localStorage:", e);
     }
 
-    // Lowercase and clean skills before setting keywords
     const cleanedSkills = storedSkills.map((skill) => cleanSkill(skill));
     setKeywords(cleanedSkills);
-
-    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -72,7 +67,8 @@ export const HomeCandidate = () => {
 
           return jobSkillsArray.some((skill) =>
             cleanedKeywords.some(
-              (keyword) => skill.includes(keyword) || keyword.includes(skill)
+              (keyword) =>
+                skill.includes(keyword) || keyword.includes(skill)
             )
           );
         })
@@ -86,7 +82,8 @@ export const HomeCandidate = () => {
 
           const matchedSkills = jobSkillsArray.filter((skill) =>
             cleanedKeywords.some(
-              (keyword) => skill.includes(keyword) || keyword.includes(skill)
+              (keyword) =>
+                skill.includes(keyword) || keyword.includes(skill)
             )
           );
           return { ...job, matchedSkills };
@@ -119,11 +116,17 @@ export const HomeCandidate = () => {
       link: "/",
     },
   ];
-
+  const formatUsername = (username) => {
+  return username
+    .replace(/_/g, " ") // Replace underscores with spaces
+    .split(" ") // Split into words
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter
+    .join(" "); // Join words back
+};
   return (
     <div>
       <div className="candidate-home-container">
-        <h1>Hi, {username}!👋</h1>
+        <h1>Hi, {formatUsername(username)}!👋</h1>
         <p>Let's help you and your dream career</p>
         <h2>
           Trending on Job<span style={{ color: "orange" }}>Nector</span>🔥
@@ -149,56 +152,54 @@ export const HomeCandidate = () => {
           as per your <span style={{ color: "blue" }}>Preferences</span>
         </p>
 
-        {loading && <p>Loading skills and filtering jobs...</p>}
-
-        <div className="slider-container">
-          {filteredJobs.length > 0 ? (
-            filteredJobs.map((job) => (
-              <div key={job.id} className="job-card">
-                <div className="job-card-header">
+        {loading ? (
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <img src={loader} alt="Loading..." style={{ width: "100px" }} />
+            <p>Loading recommended jobs for you...</p>
+          </div>
+        ) : (
+          <div className="slider-container">
+            {filteredJobs.length > 0 ? (
+              filteredJobs.map((job) => (
+                <div key={job.id} className="job-card">
                   <span className="badge">Actively hiring</span>
-                  <img
-                    src={job.logo ? job.logo : logo}
-                    alt="logo"
-                    className="company-logo"
-                  />
-                </div>
-                <h3>{job.title}</h3>
-                <p className="company-name">{job.company}</p>
-                <hr />
-                <p>
-                  📍 {job.recruiter_details?.city},{" "}
-                  {job.recruiter_details?.state},{" "}
-                  {job.recruiter_details?.country}
-                </p>
-                <p>
-                  💰 Rs. {job.min_salary} - Rs. {job.max_salary} /{" "}
-                  {job.salary_type}
-                </p>
-                <p>🕒 {job.duration}</p>
-                {job.matchedSkills && job.matchedSkills.length > 0 && (
+                  <br />
+                  <h3>{job.title}</h3>
+                  <p className="company-name">{job.company}</p>
+                  <hr />
                   <p>
-                    Matched Skills:{" "}
-                    {job.matchedSkills.map((skill, idx) => (
-                      <span
-                        key={idx}
-                        style={{ marginRight: "5px", color: "green" }}
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                    📍 {job.recruiter_details?.city},{" "}
+                    {job.recruiter_details?.state},{" "}
+                    {job.recruiter_details?.country}
                   </p>
-                )}
-                <div className="job-card-footer">
-                  <span className="tag">Internship</span>
-                  <Link to={`/jobdetails/${job.id}`}>View details</Link>
+                  <p>
+                    💰 Rs. {job.min_salary} - Rs. {job.max_salary} /{" "}
+                    {job.salary_type}
+                  </p>
+                  <p>🕒 {job.duration}</p>
+                  {job.matchedSkills && job.matchedSkills.length > 0 && (
+                    <p>
+                      Matched Skills:{" "}
+                      {job.matchedSkills.map((skill, idx) => (
+                        <span
+                          key={idx}
+                          style={{ marginRight: "5px", color: "green" }}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </p>
+                  )}
+                  <div className="job-card-footer">
+                    <Link to={`/jobdetails/${job.id}`}>View details</Link>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p>No matching jobs found based on your skills.</p>
-          )}
-        </div>
+              ))
+            ) : (
+              <p>No matching jobs found based on your skills.</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "../../style/recruiter/PostJob.css";
+import loader from "../../assets/loader.gif"; // Correct import for loader GIF
 
 const PostJob = () => {
   const url = "https://jobnector.onrender.com/";
+  const [loading, setLoading] = useState(false); // loader state
   const [formData, setFormData] = useState({
     title: "",
     minSalary: "",
@@ -21,7 +23,7 @@ const PostJob = () => {
   };
 
   const fetchRecruiterProfile = async () => {
-    const res = await fetch(url+"api/get-recruiter/", {
+    const res = await fetch(url + "api/get-recruiter/", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
@@ -31,6 +33,7 @@ const PostJob = () => {
   };
 
   const postJob = async () => {
+    setLoading(true); // start loader
     try {
       const recruiterData = await fetchRecruiterProfile();
 
@@ -45,7 +48,7 @@ const PostJob = () => {
         description: formData.description,
       };
 
-      const response = await fetch(url+"api/create-job/", {
+      const response = await fetch(url + "api/create-job/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +58,6 @@ const PostJob = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
         alert("Job posted successfully!");
         setFormData({
           title: "",
@@ -73,6 +75,8 @@ const PostJob = () => {
     } catch (err) {
       console.error("Network error:", err);
       alert("Something went wrong");
+    } finally {
+      setLoading(false); // stop loader
     }
   };
 
@@ -84,63 +88,72 @@ const PostJob = () => {
   return (
     <div className="post-job-container">
       <h2>Post a New Job</h2>
-      <form className="post-job-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          placeholder="Job Title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
 
-        <div className="salary-range-group">
-          <input
-            type="number"
-            name="minSalary"
-            placeholder="Min Salary (₹)"
-            value={formData.minSalary}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="number"
-            name="maxSalary"
-            placeholder="Max Salary (₹)"
-            value={formData.maxSalary}
-            onChange={handleChange}
-            required
-          />
-          <select
-            name="salaryType"
-            value={formData.salaryType}
-            onChange={handleChange}
-          >
-            <option value="per month">Per Month</option>
-            <option value="per year">Per Year</option>
-            <option value="per week">Per Week</option>
-            <option value="one time">One Time</option>
-          </select>
+      {loading ? (
+        <div style={{ textAlign: "center" }}>
+          <img src={loader} alt="Loading..." style={{ width: "80px" }} />
         </div>
+      ) : (
+        <form className="post-job-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="title"
+            placeholder="Job Title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
 
-        <input
-          type="text"
-          name="duration"
-          placeholder="Duration (e.g., 6 months)"
-          value={formData.duration}
-          onChange={handleChange}
-          required
-        />
-        <textarea
-          name="description"
-          placeholder="Job Description"
-          rows="6"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        ></textarea>
-        <button type="submit">Post Job</button>
-      </form>
+          <div className="salary-range-group">
+            <input
+              type="number"
+              name="minSalary"
+              placeholder="Min Salary (₹)"
+              value={formData.minSalary}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="number"
+              name="maxSalary"
+              placeholder="Max Salary (₹)"
+              value={formData.maxSalary}
+              onChange={handleChange}
+              required
+            />
+            <select
+              name="salaryType"
+              value={formData.salaryType}
+              onChange={handleChange}
+            >
+              <option value="per month">Per Month</option>
+              <option value="per year">Per Year</option>
+              <option value="per week">Per Week</option>
+              <option value="one time">One Time</option>
+            </select>
+          </div>
+
+          <input
+            type="text"
+            name="duration"
+            placeholder="Duration (e.g., 6 months)"
+            value={formData.duration}
+            onChange={handleChange}
+            required
+          />
+          <textarea
+            name="description"
+            placeholder="Job Description"
+            rows="6"
+            value={formData.description}
+            onChange={handleChange}
+            required
+          ></textarea>
+          <button type="submit" disabled={loading}>
+            {loading ? "Posting..." : "Post Job"}
+          </button>
+        </form>
+      )}
     </div>
   );
 };
