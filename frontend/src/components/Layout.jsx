@@ -1,6 +1,4 @@
-// Layout.jsx
-import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, matchPath } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import RecruiterNavbar from './recruiter/RecruiterNavbar';
@@ -8,26 +6,35 @@ import RecruiterNavbar from './recruiter/RecruiterNavbar';
 const Layout = () => {
   const location = useLocation();
 
-  // Define all recruiter routes that should use the RecruiterNavbar
+  // Recruiter-only routes (which show RecruiterNavbar)
   const recruiterPaths = [
     '/recruiter',
     '/post-job',
     '/posted-jobs',
     '/job-candidates',
     '/recruiter-dashboard',
-    '/edit-job'
+    '/edit-job/:id'
   ];
 
-  // Check if the current pathname starts with any recruiter path
+  // Routes where Footer should be hidden
+  const noFooterPaths = [
+    'candidate',
+    '/jobdetails/:job_id'
+  ];
+
   const isRecruiterRoute = recruiterPaths.some(path =>
-    location.pathname.startsWith(path)
+    matchPath({ path, end: false }, location.pathname)
+  );
+
+  const hideFooter = noFooterPaths.some(path =>
+    matchPath({ path, end: true }, location.pathname)
   );
 
   return (
     <>
       {isRecruiterRoute ? <RecruiterNavbar /> : <Navbar />}
       <Outlet />
-      {isRecruiterRoute ? "" : <Footer />}
+      {!hideFooter && <Footer />}
     </>
   );
 };

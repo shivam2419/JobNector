@@ -131,13 +131,17 @@ export const Navbar = () => {
 
       <nav className="navbar-container">
         <div className="navbar-logo-section">
-          <img src={logo} alt="" />
-          <h3><Link to="/">JobNector</Link></h3>
+          <Link to="/"><img src={logo} alt="" /></Link>
+          <h3>
+            <Link to="/">JobNector</Link>
+          </h3>
         </div>
 
         <div className="navbar-links">
           <ul>
-            <li><Link to="/">Home</Link></li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
             <li className="custom-dropdown">
               <div className="label">Jobs</div>
               <ul className="options">
@@ -147,33 +151,64 @@ export const Navbar = () => {
                 <li>Jobs in Banglore</li>
               </ul>
             </li>
-            <li><Link to="/">Contact</Link></li>
+            <li>
+              <Link to="/">Contact</Link>
+            </li>
           </ul>
         </div>
 
         <div className="navbar-btns">
           {authenticated ? (
             <div className="navbar-profile">
-              <Link to="/notification" style={{ border: "none", margin: 0, padding: 0 }}>
-                <img src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png" alt="" />
-              </Link>
-              <span style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <Link
+                to="/notification"
+                style={{ border: "none", margin: 0, padding: 0 }}
+              >
                 <img
-                  src={
-                    localStorage.getItem("profile")
-                      ? localStorage.getItem("profile")
-                      : "https://cdn-icons-png.flaticon.com/512/7915/7915522.png"
-                  }
+                  src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png"
                   alt=""
                 />
-                {username && <Link to="/profile" style={{ backgroundColor: "white", color: "black" }}>{username}</Link>}
+              </Link>
+              <span
+                style={{ display: "flex", gap: "10px", alignItems: "center" }}
+              >
+                <Link to="/profile">
+                  <img
+                    src={
+                      localStorage.getItem("profile")
+                        ? localStorage.getItem("profile")
+                        : "https://cdn-icons-png.flaticon.com/512/7915/7915522.png"
+                    }
+                    alt=""
+                  />
+                </Link>
               </span>
-              <Link onClick={logout} id="logout-btn">Logout</Link>
+              <Link onClick={logout} id="logout-btn">
+                Logout
+              </Link>
             </div>
           ) : (
             <>
-              <Link onClick={() => document.getElementById("navbar-login-section").style.display = "flex"} id="navbar-login-btn">Login</Link>
-              <Link onClick={() => document.getElementById("navbar-signup-section").style.display = "flex"} id="navbar-register-btn">Register</Link>
+              <Link
+                onClick={() =>
+                  (document.getElementById(
+                    "navbar-login-section"
+                  ).style.display = "flex")
+                }
+                id="navbar-login-btn"
+              >
+                Login
+              </Link>
+              <Link
+                onClick={() =>
+                  (document.getElementById(
+                    "navbar-signup-section"
+                  ).style.display = "flex")
+                }
+                id="navbar-register-btn"
+              >
+                Register
+              </Link>
             </>
           )}
         </div>
@@ -182,7 +217,14 @@ export const Navbar = () => {
       {/* LOGIN SECTION */}
       <div className="nav-login" id="navbar-login-section">
         <div className="nav-login-left">
-          <b onClick={() => document.getElementById("navbar-login-section").style.display = "none"}>X</b>
+          <b
+            onClick={() =>
+              (document.getElementById("navbar-login-section").style.display =
+                "none")
+            }
+          >
+            X
+          </b>
           <span>
             <img src={logo} alt="" />
             <label>JobNector</label>
@@ -191,10 +233,18 @@ export const Navbar = () => {
             <h1>Login to Your Account</h1>
             <p>Login using social networks</p>
             <span>
-              <i><FaFacebook /></i>
-              <i><FaInstagram /></i>
-              <i><FaGithub /></i>
-              <i><FcGoogle /></i>
+              <i>
+                <FaFacebook />
+              </i>
+              <i>
+                <FaInstagram />
+              </i>
+              <i>
+                <FaGithub />
+              </i>
+              <i>
+                <FcGoogle />
+              </i>
             </span>
             <hr />
             <form onSubmit={handleSubmit}>
@@ -206,7 +256,8 @@ export const Navbar = () => {
                 onChange={handleChange}
                 required
               />
-              <br /><br />
+              <br />
+              <br />
               <div className="password-container">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -216,26 +267,41 @@ export const Navbar = () => {
                   onChange={handleChange}
                   required
                 />
-                <i onClick={() => setShowPassword(!showPassword)} className="eye-icon">
+                <i
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="eye-icon"
+                >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </i>
               </div>
-              <br /><br />
+              <br />
+              <br />
               <button type="submit">Sign In</button>
             </form>
           </div>
         </div>
 
         <div className="nav-login-right">
-          <b onClick={() => document.getElementById("navbar-login-section").style.display = "none"}>X</b>
+          <b
+            onClick={() =>
+              (document.getElementById("navbar-login-section").style.display =
+                "none")
+            }
+          >
+            X
+          </b>
           <div className="nav-login-right-content">
             <h1>New Here?</h1>
             <p>Sign up and discover a great amount of new opportunity</p>
             <button>
               <Link
                 onClick={() => {
-                  document.getElementById("navbar-login-section").style.display = "none";
-                  document.getElementById("navbar-signup-section").style.display = "flex";
+                  document.getElementById(
+                    "navbar-login-section"
+                  ).style.display = "none";
+                  document.getElementById(
+                    "navbar-signup-section"
+                  ).style.display = "flex";
                 }}
               >
                 Sign up
@@ -248,15 +314,28 @@ export const Navbar = () => {
       {/* SIGNUP SECTION */}
       <div className="nav-signup" id="navbar-signup-section">
         <div className="nav-signup-right">
-          <b onClick={() => document.getElementById("navbar-signup-section").style.display = "none"}>X</b>
+          <b
+            onClick={() =>
+              (document.getElementById("navbar-signup-section").style.display =
+                "none")
+            }
+          >
+            X
+          </b>
           <div className="nav-signup-right-content">
             <h1>Welcome Back!</h1>
-            <p>To keep connected with us please login with your personal info.</p>
+            <p>
+              To keep connected with us please login with your personal info.
+            </p>
             <button>
               <Link
                 onClick={() => {
-                  document.getElementById("navbar-login-section").style.display = "flex";
-                  document.getElementById("navbar-signup-section").style.display = "none";
+                  document.getElementById(
+                    "navbar-login-section"
+                  ).style.display = "flex";
+                  document.getElementById(
+                    "navbar-signup-section"
+                  ).style.display = "none";
                 }}
               >
                 Sign In
@@ -266,7 +345,14 @@ export const Navbar = () => {
         </div>
 
         <div className="nav-signup-left">
-          <b onClick={() => document.getElementById("navbar-signup-section").style.display = "none"}>X</b>
+          <b
+            onClick={() =>
+              (document.getElementById("navbar-signup-section").style.display =
+                "none")
+            }
+          >
+            X
+          </b>
           <span>
             <img src={logo} alt="" />
             <label>JobNector</label>
@@ -277,7 +363,11 @@ export const Navbar = () => {
               <button>
                 <Link
                   to="/register/candidate"
-                  onClick={() => document.getElementById("navbar-signup-section").style.display = "none"}
+                  onClick={() =>
+                    (document.getElementById(
+                      "navbar-signup-section"
+                    ).style.display = "none")
+                  }
                 >
                   Create account as Candidate
                 </Link>
@@ -286,7 +376,11 @@ export const Navbar = () => {
               <button>
                 <Link
                   to="/register"
-                  onClick={() => document.getElementById("navbar-signup-section").style.display = "none"}
+                  onClick={() =>
+                    (document.getElementById(
+                      "navbar-signup-section"
+                    ).style.display = "none")
+                  }
                 >
                   Create account as Recruiter
                 </Link>

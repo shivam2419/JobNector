@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../style/candidate/CandidateFormWizard.css";
 
 export const CandidateFormWizard = () => {
   const url = "https://jobnector.onrender.com/";
@@ -168,245 +169,147 @@ export const CandidateFormWizard = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: 600, margin: "auto" }}>
-      <h1>Candidate Registration form</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 20,
-        }}
-      >
-        <span
-          style={{
-            padding: "10px",
-            borderBottom: step === 1 ? "2px solid blue" : "1px solid gray",
-          }}
-        >
-          1. Personal Info
-        </span>
-        <span
-          style={{
-            padding: "10px",
-            borderBottom: step === 2 ? "2px solid blue" : "1px solid gray",
-          }}
-        >
-          2. Education & Skills
-        </span>
-        <span
-          style={{
-            padding: "10px",
-            borderBottom: step === 3 ? "2px solid blue" : "1px solid gray",
-          }}
-        >
-          3. Resume & Submit
-        </span>
-      </div>
+  <div className="form-container">
+    <h1>Candidate Registration Form</h1>
 
-      <form onSubmit={handleSubmit}>
-        {step === 1 && (
-          <div>
-            <h3 style={{ fontSize: "30px" }}>Personal Info</h3>
-            <input
-              name="firstName"
-              placeholder="First Name"
-              value={formData.firstName}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="lastName"
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="email"
-              type="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="mobile"
-              placeholder="Mobile Number"
-              value={formData.mobile}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="city"
-              placeholder="City"
-              value={formData.city}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="state"
-              placeholder="State"
-              value={formData.state}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="country"
-              placeholder="Country"
-              value={formData.country}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-
-            <button
-              type="button"
-              onClick={nextStep}
-              style={{
-                backgroundColor: "#1e88e5",
-                border: "none",
-                padding: "8px",
-                width: "100px",
-                margin: "10px",
-                cursor: "pointer",
-                color: "white",
-              }}
-            >
-              Next
-            </button>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div>
-            <h3 style={{ fontSize: "30px" }}>Education & Skills</h3>
-            <select
-              name="qualification"
-              value={formData.qualification}
-              onChange={handleChange}
-              required
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-            >
-              <option value="">Select Highest Qualification</option>
-              <option value="10th Pass">10th Pass</option>
-              <option value="12th Pass">12th Pass</option>
-              <option value="Diploma">Diploma</option>
-              <option value="B.Tech / B.E.">B.Tech / B.E.</option>
-              <option value="M.Tech / M.E.">M.Tech / M.E.</option>
-              <option value="B.Sc / M.Sc">B.Sc / M.Sc</option>
-              <option value="BCA / MCA">BCA / MCA</option>
-              <option value="MBA / PGDM">MBA / PGDM</option>
-              <option value="Other">Other</option>
-            </select>
-
-            <input
-              name="school"
-              placeholder="College/University"
-              value={formData.school}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <input
-              name="pass_year"
-              placeholder="Graduation Year"
-              value={formData.pass_year}
-              onChange={handleChange}
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-              required
-            />
-            <button
-              type="button"
-              onClick={prevStep}
-              style={{
-                backgroundColor: "#1e88e5",
-                border: "none",
-                padding: "8px",
-                width: "100px",
-                margin: "10px",
-                cursor: "pointer",
-                color: "white",
-              }}
-            >
-              Back
-            </button>
-            <button
-              type="button"
-              onClick={nextStep}
-              style={{
-                backgroundColor: "#1e88e5",
-                border: "none",
-                padding: "8px",
-                width: "100px",
-                margin: "10px",
-                cursor: "pointer",
-                color: "white",
-              }}
-            >
-              Next
-            </button>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div>
-            <h3 style={{ fontSize: "30px" }}>Resume & Submit</h3>
-            <input
-              type="file"
-              name="resume"
-              accept=".pdf,.doc,.docx"
-              onChange={handleChange}
-              required
-              style={{ padding: "10px", margin: "10px", width: "100%" }}
-            />
-            {parsing && <p>Parsing resume, please wait...</p>}
-            {parsingError && <p style={{ color: "red" }}>{parsingError}</p>}
-            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-              <button
-                type="button"
-                onClick={prevStep}
-                style={{
-                  backgroundColor: "#ccc",
-                  border: "none",
-                  padding: "8px",
-                  width: "100px",
-                  cursor: "pointer",
-                }}
-              >
-                Back
-              </button>
-              <button
-                type="submit"
-                style={{
-                  backgroundColor: "#43a047",
-                  border: "none",
-                  padding: "8px",
-                  width: "100px",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-              >
-  {parsing ? "Extracting..." : "Submit"}
-              </button>
-            </div>
-          </div>
-        )}
-      </form>
+    <div className="step-tabs">
+      <span className={step === 1 ? "active" : ""}>1. Personal Info</span>
+      <span className={step === 2 ? "active" : ""}>2. Education & Skills</span>
+      <span className={step === 3 ? "active" : ""}>3. Resume & Submit</span>
     </div>
-  );
+
+    <form onSubmit={handleSubmit}>
+      {step === 1 && (
+        <>
+          <h3>Personal Info</h3>
+          <input
+            name="firstName"
+            placeholder="First Name"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="lastName"
+            placeholder="Last Name"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="mobile"
+            placeholder="Mobile Number"
+            value={formData.mobile}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="city"
+            placeholder="City"
+            value={formData.city}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="state"
+            placeholder="State"
+            value={formData.state}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="country"
+            placeholder="Country"
+            value={formData.country}
+            onChange={handleChange}
+            required
+          />
+          <div className="button-row">
+            <button type="button" onClick={nextStep}>Next</button>
+          </div>
+        </>
+      )}
+
+      {step === 2 && (
+        <>
+          <h3>Education & Skills</h3>
+          <select
+            name="qualification"
+            value={formData.qualification}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Highest Qualification</option>
+            <option value="10th Pass">10th Pass</option>
+            <option value="12th Pass">12th Pass</option>
+            <option value="Diploma">Diploma</option>
+            <option value="B.Tech / B.E.">B.Tech / B.E.</option>
+            <option value="M.Tech / M.E.">M.Tech / M.E.</option>
+            <option value="B.Sc / M.Sc">B.Sc / M.Sc</option>
+            <option value="BCA / MCA">BCA / MCA</option>
+            <option value="MBA / PGDM">MBA / PGDM</option>
+            <option value="Other">Other</option>
+          </select>
+          <input
+            name="school"
+            placeholder="College/University"
+            value={formData.school}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="pass_year"
+            placeholder="Graduation Year"
+            value={formData.pass_year}
+            onChange={handleChange}
+            required
+          />
+          <div className="button-row">
+            <button type="button" onClick={prevStep}>Back</button>
+            <button type="button" onClick={nextStep}>Next</button>
+          </div>
+        </>
+      )}
+
+      {step === 3 && (
+        <>
+          <h3>Resume & Submit</h3>
+          <input
+            type="file"
+            name="resume"
+            accept=".pdf,.doc,.docx"
+            onChange={handleChange}
+            required
+          />
+          {parsing && <p>Parsing resume, please wait...</p>}
+          {parsingError && <p style={{ color: "red" }}>{parsingError}</p>}
+
+          <div className="button-row">
+            <button type="button" onClick={prevStep}>Back</button>
+            <button type="submit">
+              {parsing ? "Extracting..." : "Submit"}
+            </button>
+          </div>
+        </>
+      )}
+    </form>
+  </div>
+);
+
 };

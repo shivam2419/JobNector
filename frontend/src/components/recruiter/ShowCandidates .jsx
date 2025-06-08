@@ -17,6 +17,7 @@ const ShowCandidates = () => {
 
   const updateApplicationStatus = async (applicationId, newStatus) => {
     try {
+      setLoading(true);
       const res = await fetch(url + "/api/accept-application/", {
         method: "POST",
         headers: {
@@ -37,6 +38,8 @@ const ShowCandidates = () => {
       }
     } catch (err) {
       alert("Error: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,7 +50,9 @@ const ShowCandidates = () => {
         const data = await res.json();
         if (res.ok) {
           setCandidates(data.message);
-          setJobTitle(""); // Can be set if API provides job title
+          if (data.message.length > 0) {
+            setJobTitle(data.message[0].job.title);
+          } // Can be set if API provides job title
         } else {
           setCandidates([]);
         }
@@ -81,28 +86,39 @@ const ShowCandidates = () => {
               <h3>{candidate.candidate.user.username.toUpperCase()}</h3>
 
               <p>
-                <MdEmail style={{ verticalAlign: "middle", marginRight: "6px" }} />
+                <MdEmail
+                  style={{ verticalAlign: "middle", marginRight: "6px" }}
+                />
                 <strong>Email:</strong> {candidate.candidate.user.email}
               </p>
 
               <p>
-                <MdLocationOn style={{ verticalAlign: "middle", marginRight: "6px" }} />
+                <MdLocationOn
+                  style={{ verticalAlign: "middle", marginRight: "6px" }}
+                />
                 <strong>Location:</strong> {candidate.candidate.city},{" "}
                 {candidate.candidate.state}
               </p>
 
               <p>
-                <FaUserGraduate style={{ verticalAlign: "middle", marginRight: "6px" }} />
-                <strong>Qualification:</strong> {candidate.candidate.qualification}
+                <FaUserGraduate
+                  style={{ verticalAlign: "middle", marginRight: "6px" }}
+                />
+                <strong>Qualification:</strong>{" "}
+                {candidate.candidate.qualification}
               </p>
 
               <p>
-                <MdSchool style={{ verticalAlign: "middle", marginRight: "6px" }} />
+                <MdSchool
+                  style={{ verticalAlign: "middle", marginRight: "6px" }}
+                />
                 <strong>School:</strong> {candidate.candidate.school}
               </p>
 
               <p>
-                <MdDescription style={{ verticalAlign: "middle", marginRight: "6px" }} />
+                <MdDescription
+                  style={{ verticalAlign: "middle", marginRight: "6px" }}
+                />
                 <strong>Resume:</strong>{" "}
                 <a
                   href={`${url}${candidate.candidate.resume}`}
@@ -124,7 +140,9 @@ const ShowCandidates = () => {
                     cursor: "pointer",
                     borderRadius: "5px",
                   }}
-                  onClick={() => updateApplicationStatus(candidate.id, "Accepted")}
+                  onClick={() =>
+                    updateApplicationStatus(candidate.id, "Accepted")
+                  }
                 >
                   Accept
                 </button>
@@ -138,7 +156,9 @@ const ShowCandidates = () => {
                     cursor: "pointer",
                     borderRadius: "5px",
                   }}
-                  onClick={() => updateApplicationStatus(candidate.id, "Rejected")}
+                  onClick={() =>
+                    updateApplicationStatus(candidate.id, "Rejected")
+                  }
                 >
                   Reject
                 </button>

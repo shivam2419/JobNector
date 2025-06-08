@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../style/candidate/JobDetails.css";
-
+import loader from "../../assets/loader.gif";
 const JobDetails = () => {
   const { job_id } = useParams();
   const [job, setJob] = useState(null);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
   const url = "https://jobnector.onrender.com/";
@@ -34,6 +34,7 @@ const JobDetails = () => {
   }, [job_id]);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const res = await fetch(`${url}api/apply/`, {
         method: "POST",
@@ -61,9 +62,10 @@ const JobDetails = () => {
       console.error("Error:", error);
       alert("Something went wrong.");
     }
+    setLoading(false);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div><center><img src={loader} alt="" style={{height: "100px", width: "100px", marginTop: "100px"}}/></center></div>;
   if (!job) return <div>Job not found.</div>;
 
   return (
@@ -116,7 +118,7 @@ const JobDetails = () => {
       </div>
 
       {alreadyApplied ? (
-        <button className="apply-button" disabled style={{opacity: "70%"}}>
+        <button className="apply-button" disabled style={{ opacity: "70%" }}>
           Already Applied
         </button>
       ) : (

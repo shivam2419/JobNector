@@ -125,18 +125,17 @@ const RecruiterDashboard = () => {
             boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
           }}
         >
+          <Briefcase size={25} /> 
           <h3
             style={{
               fontSize: "20px",
               fontWeight: "600",
               marginBottom: "10px",
-              display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              gap: "8px",
             }}
           >
-            <Briefcase size={22} /> Total Jobs Posted
+            Total Jobs Posted
           </h3>
           <p style={{ fontSize: "28px", fontWeight: "600", margin: 0 }}>
             {jobs.length}
@@ -152,6 +151,7 @@ const RecruiterDashboard = () => {
             boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
           }}
         >
+          <Users size={25} />
           <h3
             style={{
               fontSize: "20px",
@@ -163,7 +163,7 @@ const RecruiterDashboard = () => {
               gap: "8px",
             }}
           >
-            <Users size={22} /> Total Applications Received
+             Total Applications Received
           </h3>
           <p style={{ fontSize: "28px", fontWeight: "600", margin: 0 }}>
             {totalApplications}
