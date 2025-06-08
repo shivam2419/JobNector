@@ -1,9 +1,14 @@
+import { useNavigate } from "react-router-dom"; // at the top
 import React, { useEffect, useState } from "react";
 import "../../style/Profile.css";
+import loader from "../../assets/loader.gif";
+import { FaBuilding, FaUserTie, FaPhone, FaCity, FaFlag, FaMapMarkerAlt, FaUser, FaEnvelope } from "react-icons/fa";
 
 const RecruiterProfile = () => {
   const backendUrl = "https://jobnector.onrender.com";
   const [recruiter, setRecruiter] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     company_name: "",
     city: "",
@@ -19,7 +24,13 @@ const RecruiterProfile = () => {
         Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          navigate(''); // redirect to login
+          return null;
+        }
+        return res.json();
+      })
       .then((data) => {
         setRecruiter(data);
         setFormData({
@@ -30,8 +41,12 @@ const RecruiterProfile = () => {
           designation: data.designation || "",
           phone_number: data.phone_number || "",
         });
+        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
   const handleChange = (e) => {
@@ -59,28 +74,26 @@ const RecruiterProfile = () => {
       .catch((err) => console.error(err));
   };
 
-  if (!recruiter) return <div className="profile-container">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="profile-container">
+        <center><img src={loader} alt="Loading..." style={{ width: "80px" }} /></center>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-container">
       <h2>Recruiter Profile</h2>
 
       <form onSubmit={handleUpdate}>
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          value={recruiter.user?.username}
-          disabled
-        />
-        <label>Email</label>
-        <input
-          type="text"
-          name="email"
-          value={recruiter.user?.email}
-          disabled
-        />
-        <label>Company Name</label>
+        <label><FaUser /> Username</label>
+        <input type="text" value={recruiter.user?.username} disabled />
+
+        <label><FaEnvelope /> Email</label>
+        <input type="text" value={recruiter.user?.email} disabled />
+
+        <label><FaBuilding /> Company Name</label>
         <input
           type="text"
           name="company_name"
@@ -88,7 +101,7 @@ const RecruiterProfile = () => {
           onChange={handleChange}
         />
 
-        <label>Designation</label>
+        <label><FaUserTie /> Designation</label>
         <input
           type="text"
           name="designation"
@@ -96,7 +109,7 @@ const RecruiterProfile = () => {
           onChange={handleChange}
         />
 
-        <label>Phone number</label>
+        <label><FaPhone /> Phone Number</label>
         <input
           type="text"
           name="phone_number"
@@ -104,7 +117,7 @@ const RecruiterProfile = () => {
           onChange={handleChange}
         />
 
-        <label>City</label>
+        <label><FaCity /> City</label>
         <input
           type="text"
           name="city"
@@ -112,7 +125,7 @@ const RecruiterProfile = () => {
           onChange={handleChange}
         />
 
-        <label>State</label>
+        <label><FaMapMarkerAlt /> State</label>
         <input
           type="text"
           name="state"
@@ -120,7 +133,7 @@ const RecruiterProfile = () => {
           onChange={handleChange}
         />
 
-        <label>Country</label>
+        <label><FaFlag /> Country</label>
         <input
           type="text"
           name="country"

@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../style/recruiter/RecruiterNavbar.css";
 
 const RecruiterNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("access");
     localStorage.removeItem("username");
-    window.location.href = "/";
+    navigate("/");  // React-router navigation instead of window.location.href
   };
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => !prev);
   };
 
   return (
@@ -21,7 +22,12 @@ const RecruiterNavbar = () => {
         <Link className="brand" to="/recruiter">
           Recruiter Panel
         </Link>
-        <button className="hamburger" onClick={toggleMenu}>
+        <button
+          className="hamburger"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+          aria-expanded={isOpen}
+        >
           &#9776;
         </button>
       </div>
@@ -34,9 +40,7 @@ const RecruiterNavbar = () => {
         </div>
         <div className="navbar-right">
           <Link to="/recruiter-profile">Profile</Link>
-          <button onClick={logout} className="logout-btn">
-            Logout
-          </button>
+          <a href="" onClick={logout} className="logout-btn" >Logout</a>
         </div>
       </div>
     </nav>

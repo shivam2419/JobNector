@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { FiEdit, FiLoader, FiCheck } from "react-icons/fi"; // react-icons
+import loader from "../../assets/loader.gif";
 
 const backendUrl = "https://jobnector.onrender.com";
 
 const EditJob = () => {
-  const { jobId } = useParams(); 
+  const { jobId } = useParams();
   const navigate = useNavigate();
-
+  const [updating, setUpdating] = useState(false);
   const [jobData, setJobData] = useState({
-    recruiter: "",       // recruiter id
+    recruiter: "",
     title: "",
     min_salary: "",
     max_salary: "",
     salary_type: "",
     duration: "",
     description: "",
-    skills: "",          // comma separated string
+    skills: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch job details and recruiters on mount
   useEffect(() => {
     const fetchJobAndRecruiters = async () => {
       try {
@@ -31,18 +32,17 @@ const EditJob = () => {
               Authorization: `Bearer ${localStorage.getItem("access")}`,
             },
           }),
-          fetch(`${backendUrl}/api/recruiter/`, { // adjust this URL based on your recruiters endpoint
+          fetch(`${backendUrl}/api/recruiter/`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access")}`,
             },
           }),
         ]);
-        console.log(jobRes.status)
+
         if (jobRes.status !== 200) throw new Error("Failed to fetch job details");
         if (recRes.status !== 200) throw new Error("Failed to fetch recruiters");
 
         const jobJson = await jobRes.json();
-
 
         setJobData({
           recruiter: jobJson.recruiter || "",
@@ -54,6 +54,7 @@ const EditJob = () => {
           description: jobJson.description || "",
           skills: (jobJson.skills && jobJson.skills.join(", ")) || "",
         });
+
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -69,15 +70,13 @@ const EditJob = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Prepare data: convert skills string to array of trimmed skills
     const payload = {
       ...jobData,
       min_salary: parseInt(jobData.min_salary, 10),
       max_salary: parseInt(jobData.max_salary, 10),
       skills: jobData.skills.split(",").map((skill) => skill.trim()).filter(Boolean),
     };
-
+    setUpdating(true);
     try {
       const response = await fetch(`${backendUrl}/api/create-job/${jobId}/`, {
         method: "PUT",
@@ -92,33 +91,44 @@ const EditJob = () => {
         throw new Error("Failed to update job");
       }
 
-      alert("Job updated successfully!");
+      alert("✅ Job updated successfully!");
+      setUpdating(false);
       navigate("/recruiter-dashboard");
     } catch (err) {
       alert(err.message);
     }
+    setUpdating(false);
   };
 
-  if (loading) return <p>Loading job details...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <img src={loader} alt="Loading..." style={{ width: "70px", height: "70px" }} />
+        <p style={{ fontSize: "18px", color: "#555" }}>
+          <FiLoader style={{ marginRight: "8px", verticalAlign: "middle" }} />
+          Loading job details...
+        </p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: "center", color: "red", marginTop: "30px" }}>
+        ❌ Error: {error}
+      </div>
+    );
+  }
 
   return (
-    <div
-      style={{
-        maxWidth: "600px",
-        margin: "40px auto",
-        padding: "30px",
-        borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-        backgroundColor: "#fff",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      }}
-    >
+    <div style={{ maxWidth: "600px", margin: "40px auto", padding: "30px", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", backgroundColor: "#fff", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
       <h2 style={{ marginBottom: "25px", color: "#333", textAlign: "center" }}>
+        <FiEdit style={{ marginRight: "8px", verticalAlign: "middle" }} />
         Edit Job
       </h2>
+
       <form onSubmit={handleSubmit}>
-        {/* Recruiter Dropdown */}
+        {/* ... All other fields remain same ... */}
         <div style={{ marginBottom: "20px" }}>
           <label
             htmlFor="recruiter"
@@ -390,6 +400,7 @@ const EditJob = () => {
           />
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           style={{
@@ -406,7 +417,7 @@ const EditJob = () => {
           onMouseEnter={(e) => (e.target.style.backgroundColor = "#0056b3")}
           onMouseLeave={(e) => (e.target.style.backgroundColor = "#007bff")}
         >
-          Update Job
+          {updating ? "Updating Job..." : "Update Job"}
         </button>
       </form>
     </div>

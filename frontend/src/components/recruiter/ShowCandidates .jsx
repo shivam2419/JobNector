@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../style/recruiter/ShowCandidates.css";
+import loader from "../../assets/loader.gif"; // Make sure the path is correct
+
+// Icons (can also use react-icons if preferred)
+import { MdEmail, MdLocationOn, MdSchool, MdDescription } from "react-icons/md";
+import { FaUserGraduate } from "react-icons/fa";
 
 const ShowCandidates = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState([]);
   const [jobTitle, setJobTitle] = useState("");
+  const [loading, setLoading] = useState(true);
   const url = "https://jobnector.onrender.com";
 
   const updateApplicationStatus = async (applicationId, newStatus) => {
     try {
-      const res = await fetch(url+"/api/accept-application/", {
+      const res = await fetch(url + "/api/accept-application/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,14 +46,15 @@ const ShowCandidates = () => {
         const res = await fetch(`${url}/api/job-candidates/?job_id=${jobId}`);
         const data = await res.json();
         if (res.ok) {
-          setCandidates(data.message); // assuming data is { message: [ ... ] }
-          setJobTitle(""); // adjust this based on your serializer
+          setCandidates(data.message);
+          setJobTitle(""); // Can be set if API provides job title
         } else {
           setCandidates([]);
-          setJobTitle("");
         }
       } catch (error) {
         alert(`Some error occurred: ${error}`);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -60,28 +67,42 @@ const ShowCandidates = () => {
         ← Back to Jobs
       </button>
       <h2>Candidates Applied for: {jobTitle || "Unknown Job"}</h2>
-      {candidates?.length === 0 ? (
+
+      {loading ? (
+        <div className="fullscreen-loader">
+          <img src={loader} alt="Loading..." />
+        </div>
+      ) : candidates?.length === 0 ? (
         <p>No candidates have applied for this job yet.</p>
       ) : (
         <ul className="candidate-list">
-          {candidates?.map((candidate) => (
+          {candidates.map((candidate) => (
             <li key={candidate.id} className="candidate-card">
               <h3>{candidate.candidate.user.username.toUpperCase()}</h3>
+
               <p>
+                <MdEmail style={{ verticalAlign: "middle", marginRight: "6px" }} />
                 <strong>Email:</strong> {candidate.candidate.user.email}
               </p>
+
               <p>
+                <MdLocationOn style={{ verticalAlign: "middle", marginRight: "6px" }} />
                 <strong>Location:</strong> {candidate.candidate.city},{" "}
                 {candidate.candidate.state}
               </p>
+
               <p>
-                <strong>Qualification:</strong>{" "}
-                {candidate.candidate.qualification}
+                <FaUserGraduate style={{ verticalAlign: "middle", marginRight: "6px" }} />
+                <strong>Qualification:</strong> {candidate.candidate.qualification}
               </p>
+
               <p>
+                <MdSchool style={{ verticalAlign: "middle", marginRight: "6px" }} />
                 <strong>School:</strong> {candidate.candidate.school}
               </p>
+
               <p>
+                <MdDescription style={{ verticalAlign: "middle", marginRight: "6px" }} />
                 <strong>Resume:</strong>{" "}
                 <a
                   href={`${url}${candidate.candidate.resume}`}
@@ -89,34 +110,39 @@ const ShowCandidates = () => {
                   rel="noreferrer"
                   style={{ color: "blue" }}
                 >
-                  See Resume 
+                  See Resume
                 </a>
               </p>
 
-              <button
-                style={{
-                  margin: "10px",
-                  backgroundColor: "#007aff",
-                  padding: "10px",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-                onClick={() => updateApplicationStatus(candidate.id, "Accepted")}
-              >
-                Accept
-              </button>
-              <button
-                style={{
-                  margin: "10px",
-                  backgroundColor: "red",
-                  padding: "10px",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-                onClick={() => updateApplicationStatus(candidate.id, "Rejected")}
-              >
-                Reject
-              </button>
+              <div style={{ marginTop: "10px" }}>
+                <button
+                  style={{
+                    margin: "6px",
+                    backgroundColor: "#007aff",
+                    padding: "10px",
+                    color: "white",
+                    cursor: "pointer",
+                    borderRadius: "5px",
+                  }}
+                  onClick={() => updateApplicationStatus(candidate.id, "Accepted")}
+                >
+                  Accept
+                </button>
+
+                <button
+                  style={{
+                    margin: "6px",
+                    backgroundColor: "red",
+                    padding: "10px",
+                    color: "white",
+                    cursor: "pointer",
+                    borderRadius: "5px",
+                  }}
+                  onClick={() => updateApplicationStatus(candidate.id, "Rejected")}
+                >
+                  Reject
+                </button>
+              </div>
             </li>
           ))}
         </ul>

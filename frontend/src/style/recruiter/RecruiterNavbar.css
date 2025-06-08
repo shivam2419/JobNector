@@ -28,6 +28,11 @@
   color: white;
   display: none;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.hamburger:hover {
+  color: #ddd;
 }
 
 /* Navbar Links Container */
@@ -40,7 +45,6 @@
 
 .navbar-left a,
 .navbar-right a {
-  color: white;
   text-decoration: none;
   margin: 0 12px;
   font-size: 16px;
@@ -57,12 +61,9 @@
 }
 
 .logout-btn {
-  background-color: transparent;
-  border: none;
   color: red;
   cursor: pointer;
   font-size: 16px;
-  margin-left: 8px;
 }
 
 /* Responsive */
@@ -79,6 +80,8 @@
     align-items: flex-start;
     display: none;
     width: 100%;
+    margin-top: 10px;
+    padding-left: 10px;
   }
 
   .navbar-links.open {
@@ -95,7 +98,7 @@
   .navbar-left a,
   .navbar-right a,
   .logout-btn {
-    margin: 8px 0;
+    margin: 8px;
     font-size: 15px;
   }
 

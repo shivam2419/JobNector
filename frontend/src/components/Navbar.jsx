@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/JobNector.png";
+import loader from "../assets/loader.gif";
 import "../style/Navbar.css";
 import {
   FaEye,
@@ -14,33 +15,33 @@ import { FcGoogle } from "react-icons/fc";
 export const Navbar = () => {
   const url = "https://jobnector.onrender.com/";
   const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
   const username = localStorage.getItem("username");
 
   useEffect(() => {
-  const token = localStorage.getItem("access");
-  if (!token) {
-    setAuthenticated(false);
-    return;
-  }
-
-  fetch(url+"api/get-usertype/8", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => {
-      if (res.status === 401) {
-        localStorage.removeItem("access");
-        setAuthenticated(false);
-      } else {
-        setAuthenticated(true);
-      }
-    })
-    .catch(() => {
+    const token = localStorage.getItem("access");
+    if (!token) {
       setAuthenticated(false);
-    });
-}, []);
+      return;
+    }
 
+    fetch(url + "api/get-usertype/8", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          localStorage.removeItem("access");
+          setAuthenticated(false);
+        } else {
+          setAuthenticated(true);
+        }
+      })
+      .catch(() => {
+        setAuthenticated(false);
+      });
+  }, []);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -66,8 +67,9 @@ export const Navbar = () => {
   };
 
   const loginUser = async () => {
+    setLoading(true);
     formData.username = formData.username.trimEnd();
-    const username = formData.username.replace(/ /g, "_");
+    const username = formData.username.replace(/ /g, "_").toLowerCase();
 
     try {
       const response = await fetch(url + "api/login/", {
@@ -82,6 +84,7 @@ export const Navbar = () => {
       if (!response.ok) {
         const errorData = await response.json();
         alert("Login failed: " + (errorData.detail || "Unknown error"));
+        setLoading(false);
         return;
       }
 
@@ -95,10 +98,12 @@ export const Navbar = () => {
       alert("Login successful!");
 
       const userType = await fetchUserType();
+      setLoading(false);
       if (userType?.is_candidate) window.location.href = "/candidate";
       if (userType?.is_recruiter) window.location.href = "/recruiter";
     } catch (error) {
       alert("Some error occurred during login");
+      setLoading(false);
     }
   };
 
@@ -108,14 +113,23 @@ export const Navbar = () => {
   };
 
   const logout = () => {
+    setLoading(true);
     localStorage.removeItem("access");
     localStorage.removeItem("username");
-    window.location.href = "/";
+    setTimeout(() => {
+      setLoading(false);
+      window.location.href = "/";
+    }, 1000);
   };
 
   return (
     <div>
-      {/* NAVBAR */}
+      {loading && (
+        <div className="fullscreen-loader">
+          <img src={loader} alt="Loading..." />
+        </div>
+      )}
+
       <nav className="navbar-container">
         <div className="navbar-logo-section">
           <img src={logo} alt="" />
@@ -153,11 +167,9 @@ export const Navbar = () => {
                   }
                   alt=""
                 />
-                {username && <Link to="/profile" style={{backgroundColor: "white", color: "black"}}>{username}</Link>}
+                {username && <Link to="/profile" style={{ backgroundColor: "white", color: "black" }}>{username}</Link>}
               </span>
-              <Link onClick={logout} id="logout-btn">
-                Logout
-              </Link>
+              <Link onClick={logout} id="logout-btn">Logout</Link>
             </div>
           ) : (
             <>
