@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Briefcase, Users, Edit3, Trash2, CalendarDays } from "lucide-react";
+import loader from "../../assets/loader.gif";
 
 const RecruiterDashboard = () => {
   const backendUrl = "https://jobnector.onrender.com";
   const [jobs, setJobs] = useState([]);
   const [totalApplications, setTotalApplications] = useState(0);
+  const [loading, setLoading] = useState(true); // Loading state
   const navigate = useNavigate();
 
   const fetchJobs = async () => {
@@ -44,6 +46,16 @@ const RecruiterDashboard = () => {
     }
   };
 
+  const fetchData = async () => {
+    setLoading(true); // Start loading
+    await Promise.all([fetchJobs(), fetchApplicationsCount()]);
+    setLoading(false); // End loading
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleDelete = async (jobId) => {
     if (!window.confirm("Are you sure you want to delete this job?")) return;
 
@@ -68,33 +80,105 @@ const RecruiterDashboard = () => {
     navigate(`/edit-job/${jobId}`);
   };
 
-  useEffect(() => {
-    fetchJobs();
-    fetchApplicationsCount();
-  }, []);
-
+  if (loading) {
+    return (
+      <div
+        style={{
+          padding: "24px",
+          maxWidth: "1000px",
+          margin: "auto",
+          textAlign: "center",
+        }}
+      >
+        <img src={loader} alt="Loading..." style={{ width: "80px" }} />
+      </div>
+    );
+  }
   return (
     <div style={{ padding: "24px", maxWidth: "1000px", margin: "auto" }}>
-      <h2 style={{ fontSize: "32px", fontWeight: "700", marginBottom: "30px", textAlign: "center" }}>
+      <h2
+        style={{
+          fontSize: "32px",
+          fontWeight: "700",
+          marginBottom: "30px",
+          textAlign: "center",
+        }}
+      >
         🎯 Recruiter Dashboard
       </h2>
 
-      <div style={{ display: "flex", gap: "20px", marginBottom: "40px", justifyContent: "center" }}>
-        <div style={{ background: "#e3f2fd", padding: "20px", borderRadius: "10px", flex: 1, textAlign: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-          <h3 style={{ fontSize: "20px", fontWeight: "600", marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", gap: "8px" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "20px",
+          marginBottom: "40px",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            background: "#e3f2fd",
+            padding: "20px",
+            borderRadius: "10px",
+            flex: 1,
+            textAlign: "center",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              marginBottom: "10px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
             <Briefcase size={22} /> Total Jobs Posted
           </h3>
-          <p style={{ fontSize: "28px", fontWeight: "600", margin: 0 }}>{jobs.length}</p>
+          <p style={{ fontSize: "28px", fontWeight: "600", margin: 0 }}>
+            {jobs.length}
+          </p>
         </div>
-        <div style={{ background: "#e8f5e9", padding: "20px", borderRadius: "10px", flex: 1, textAlign: "center", boxShadow: "0 2px 6px rgba(0,0,0,0.08)" }}>
-          <h3 style={{ fontSize: "20px", fontWeight: "600", marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", gap: "8px" }}>
+        <div
+          style={{
+            background: "#e8f5e9",
+            padding: "20px",
+            borderRadius: "10px",
+            flex: 1,
+            textAlign: "center",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              marginBottom: "10px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
             <Users size={22} /> Total Applications Received
           </h3>
-          <p style={{ fontSize: "28px", fontWeight: "600", margin: 0 }}>{totalApplications}</p>
+          <p style={{ fontSize: "28px", fontWeight: "600", margin: 0 }}>
+            {totalApplications}
+          </p>
         </div>
       </div>
 
-      <h3 style={{ fontSize: "24px", fontWeight: "600", marginBottom: "16px", textAlign: "center" }}>
+      <h3
+        style={{
+          fontSize: "24px",
+          fontWeight: "600",
+          marginBottom: "16px",
+          textAlign: "center",
+        }}
+      >
         📋 Posted Jobs
       </h3>
 
@@ -121,12 +205,32 @@ const RecruiterDashboard = () => {
             }}
           >
             <div>
-              <h4 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "8px", display: "flex", alignItems: "center", gap: "6px" }}>
+              <h4
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "600",
+                  marginBottom: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                }}
+              >
                 <Briefcase size={18} />
                 {job.title}
               </h4>
-              <p style={{ fontSize: "14px", color: "#333" }}>{job.description?.slice(0, 100)}...</p>
-              <p style={{ fontSize: "13px", color: "#555", marginTop: "10px", display: "flex", alignItems: "center", gap: "6px" }}>
+              <p style={{ fontSize: "14px", color: "#333" }}>
+                {job.description?.slice(0, 100)}...
+              </p>
+              <p
+                style={{
+                  fontSize: "13px",
+                  color: "#555",
+                  marginTop: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                }}
+              >
                 <CalendarDays size={14} />
                 Posted on: {new Date(job.created_at).toLocaleDateString()}
               </p>
