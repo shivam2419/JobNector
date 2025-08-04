@@ -102,9 +102,17 @@ export const Navbar = () => {
           <Link to="/about" onClick={toggleSidebar}>
             About
           </Link>
-          <Link to="/contact" onClick={toggleSidebar}>
-            Contact
-          </Link>
+          {authenticated ? (
+              <>
+                <button onClick={logout} className="sidebar-logout-btn">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login-signup" className="sidebar-login-btn">
+                Login
+              </Link>
+            )}
         </div>
         <ul className={`navbar-menu ${menuOpen ? "active" : ""}`}>
           <li>
