@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "../../style/candidate/CandidateFormWizard.css";
+import Loader from "../../assets/loader.gif";
 
 export const CandidateFormWizard = () => {
   const url = "https://jobnector.onrender.com/";
   const [step, setStep] = useState(1);
   const [parsing, setParsing] = useState(false);
   const [parsingError, setParsingError] = useState(null);
+  const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -56,8 +58,9 @@ export const CandidateFormWizard = () => {
       if (!response.ok) {
         const errorData = await response.json();
         setParsingError(
-          "Failed to parse resume: " +
-            (errorData.message || response.statusText)
+          "Failed to parse resume: Free tier over"(
+            errorData.message || response.statusText
+          )
         );
         setParsing(false);
         return;
@@ -68,7 +71,6 @@ export const CandidateFormWizard = () => {
       const skills = data.data.skills
         ? data.data.skills.map((s) => s.name || s).filter(Boolean)
         : [];
-
       // Update formData with resume file and extracted keywords
       setFormData((prev) => ({
         ...prev,
@@ -76,6 +78,10 @@ export const CandidateFormWizard = () => {
         extracted_keywords: skills,
       }));
     } catch (err) {
+      setFormData((prev) => ({
+        ...prev,
+        resume: file,
+      }));
       setParsingError("Error parsing resume: " + err.message);
     } finally {
       setParsing(false);
@@ -85,7 +91,10 @@ export const CandidateFormWizard = () => {
   const prevStep = () => setStep(step - 1);
 
   const createCandidate = async () => {
-    console.log(formData);
+    // If parser fails to extract skills, ask skills from user
+    const userSkills = document.getElementById('user_skills').value;
+    console.log(userSkills);
+    setLoader(true);
     formData.firstName = formData.firstName.trimEnd();
     formData.lastName = formData.lastName.trimEnd();
     const username =
@@ -107,6 +116,7 @@ export const CandidateFormWizard = () => {
         console.error("User creation failed:", errorData); // 🔍 Logs error reason
         alert("Failed to create user: " + JSON.stringify(errorData));
         console.log(formData);
+        setLoader(false);
         return;
       }
 
@@ -122,6 +132,7 @@ export const CandidateFormWizard = () => {
       });
       if (!usertype.ok) {
         alert("Error in creating usertype");
+        setLoader(false);
         return;
       }
       // Now create Candidate profile with user id and FormData (for file upload)
@@ -135,16 +146,19 @@ export const CandidateFormWizard = () => {
       candidateData.append("school", formData.school);
       candidateData.append("pass_out_year", formData.pass_year);
       candidateData.append("resume", formData.resume);
+
+      const jsonArray = userSkills.split(',').map(item => item.trim());
       // If you want to add extracted_keywords, append as JSON string
       candidateData.append(
         "extracted_keywords",
-        JSON.stringify(formData.extracted_keywords || [])
+        formData.extracted_keywords ? JSON.stringify(formData.extracted_keywords || []) : JSON.stringify(jsonArray)
       );
 
       const candidateResponse = await fetch(url + "api/candidate/", {
         method: "POST",
         body: candidateData,
       });
+
       if (!candidateResponse.ok) {
         const errorData = await candidateResponse.json();
         console.error("User creation failed:", errorData); // 🔍 Logs error reason
@@ -152,164 +166,192 @@ export const CandidateFormWizard = () => {
           "Failed to create candidate profile: " + JSON.stringify(errorData)
         );
         console.log(candidateData);
+        setLoader(false);
         return;
       }
 
       alert("Candidate created successfully! You can now login");
+      setLoader(false);
       window.location.href = "/";
     } catch (error) {
       console.error(error);
       alert("Some Error occured");
     }
+    setLoader(false);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     // Creating candidate
     createCandidate();
   };
-
+  if (loader) {
+    return (
+      <div className="loader-container">
+        <center><img src={Loader} alt="" style={{height: '100px', margin: '2%'}} /></center>
+      </div>
+    );
+  }
   return (
-  <div className="user-signup-form-container">
-    <h1>Candidate Registration Form</h1>
+    <div className="user-signup-form-container">
+      <h1>Candidate Registration Form</h1>
 
-    <div className="step-tabs">
-      <span className={step === 1 ? "active" : ""}>1. Personal Info</span>
-      <span className={step === 2 ? "active" : ""}>2. Education & Skills</span>
-      <span className={step === 3 ? "active" : ""}>3. Resume & Submit</span>
+      <div className="step-tabs">
+        <span className={step === 1 ? "active" : ""}>1. Personal Info</span>
+        <span className={step === 2 ? "active" : ""}>
+          2. Education & Skills
+        </span>
+        <span className={step === 3 ? "active" : ""}>3. Resume & Submit</span>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        {step === 1 && (
+          <>
+            <h3>Personal Info</h3>
+            <input
+              name="firstName"
+              placeholder="First Name"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="lastName"
+              placeholder="Last Name"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="mobile"
+              placeholder="Mobile Number"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="city"
+              placeholder="City"
+              value={formData.city}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="state"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="country"
+              placeholder="Country"
+              value={formData.country}
+              onChange={handleChange}
+              required
+            />
+            <div className="button-row">
+              <button type="button" onClick={nextStep}>
+                Next
+              </button>
+            </div>
+          </>
+        )}
+
+        {step === 2 && (
+          <>
+            <h3>Education & Skills</h3>
+            <select
+              name="qualification"
+              value={formData.qualification}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Highest Qualification</option>
+              <option value="10th Pass">10th Pass</option>
+              <option value="12th Pass">12th Pass</option>
+              <option value="Diploma">Diploma</option>
+              <option value="B.Tech / B.E.">B.Tech / B.E.</option>
+              <option value="M.Tech / M.E.">M.Tech / M.E.</option>
+              <option value="B.Sc / M.Sc">B.Sc / M.Sc</option>
+              <option value="BCA / MCA">BCA / MCA</option>
+              <option value="MBA / PGDM">MBA / PGDM</option>
+              <option value="Other">Other</option>
+            </select>
+            <input
+              name="school"
+              placeholder="College/University"
+              value={formData.school}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="pass_year"
+              placeholder="Graduation Year"
+              value={formData.pass_year}
+              onChange={handleChange}
+              required
+            />
+            <div className="button-row">
+              <button type="button" onClick={prevStep}>
+                Back
+              </button>
+              <button type="button" onClick={nextStep}>
+                Next
+              </button>
+            </div>
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <h3>Resume </h3>
+            <input
+              type="file"
+              name="resume"
+              accept=".pdf,.doc,.docx"
+              onChange={handleChange}
+              required
+            />
+            {parsing && <p>Parsing resume, please wait...</p>}
+            {parsingError && <p style={{ color: "red" }}>{parsingError}</p>}
+            {parsingError && (
+              <div>
+                <h3>Skills</h3>
+                <input
+                  type="text"
+                  name="user_skills"
+                  id="user_skills"
+                  placeholder="Enter your skills - Eg: Python, C++, Django, Spring boot etc.."
+                />
+              </div>
+            )}
+            <div className="button-row">
+              <button type="button" onClick={prevStep}>
+                Back
+              </button>
+              <button type="submit">
+                {parsing ? "Extracting..." : "Submit"}
+              </button>
+            </div>
+          </>
+        )}
+      </form>
     </div>
-
-    <form onSubmit={handleSubmit}>
-      {step === 1 && (
-        <>
-          <h3>Personal Info</h3>
-          <input
-            name="firstName"
-            placeholder="First Name"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="lastName"
-            placeholder="Last Name"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="mobile"
-            placeholder="Mobile Number"
-            value={formData.mobile}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="city"
-            placeholder="City"
-            value={formData.city}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="state"
-            placeholder="State"
-            value={formData.state}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="country"
-            placeholder="Country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-          />
-          <div className="button-row">
-            <button type="button" onClick={nextStep}>Next</button>
-          </div>
-        </>
-      )}
-
-      {step === 2 && (
-        <>
-          <h3>Education & Skills</h3>
-          <select
-            name="qualification"
-            value={formData.qualification}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Highest Qualification</option>
-            <option value="10th Pass">10th Pass</option>
-            <option value="12th Pass">12th Pass</option>
-            <option value="Diploma">Diploma</option>
-            <option value="B.Tech / B.E.">B.Tech / B.E.</option>
-            <option value="M.Tech / M.E.">M.Tech / M.E.</option>
-            <option value="B.Sc / M.Sc">B.Sc / M.Sc</option>
-            <option value="BCA / MCA">BCA / MCA</option>
-            <option value="MBA / PGDM">MBA / PGDM</option>
-            <option value="Other">Other</option>
-          </select>
-          <input
-            name="school"
-            placeholder="College/University"
-            value={formData.school}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="pass_year"
-            placeholder="Graduation Year"
-            value={formData.pass_year}
-            onChange={handleChange}
-            required
-          />
-          <div className="button-row">
-            <button type="button" onClick={prevStep}>Back</button>
-            <button type="button" onClick={nextStep}>Next</button>
-          </div>
-        </>
-      )}
-
-      {step === 3 && (
-        <>
-          <h3>Resume & Submit</h3>
-          <input
-            type="file"
-            name="resume"
-            accept=".pdf,.doc,.docx"
-            onChange={handleChange}
-            required
-          />
-          {parsing && <p>Parsing resume, please wait...</p>}
-          {parsingError && <p style={{ color: "red" }}>{parsingError}</p>}
-
-          <div className="button-row">
-            <button type="button" onClick={prevStep}>Back</button>
-            <button type="submit">
-              {parsing ? "Extracting..." : "Submit"}
-            </button>
-          </div>
-        </>
-      )}
-    </form>
-  </div>
-);
-
+  );
 };

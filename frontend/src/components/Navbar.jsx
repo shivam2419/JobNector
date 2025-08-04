@@ -3,21 +3,21 @@ import { Link } from "react-router-dom";
 import logo from "../assets/JobNector.png";
 import loader from "../assets/loader.gif";
 import "../style/Navbar.css";
-import {
-  FaEye,
-  FaEyeSlash,
-  FaFacebook,
-  FaInstagram,
-  FaGithub,
-} from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 
 export const Navbar = () => {
   const url = "https://jobnector.onrender.com/";
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(false);
-  const username = localStorage.getItem("username");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [jobsDropdownOpen, setJobsDropdownOpen] = useState(false);
+  const toggleJobsDropdown = () => setJobsDropdownOpen(!jobsDropdownOpen);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
   useEffect(() => {
     const token = localStorage.getItem("access");
     if (!token) {
@@ -38,78 +38,8 @@ export const Navbar = () => {
           setAuthenticated(true);
         }
       })
-      .catch(() => {
-        setAuthenticated(false);
-      });
+      .catch(() => setAuthenticated(false));
   }, []);
-
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const fetchUserType = async () => {
-    const userId = localStorage.getItem("user_id");
-    const response = await fetch(`${url}api/get-usertype/${userId}/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) return null;
-    return await response.json();
-  };
-
-  const loginUser = async () => {
-    setLoading(true);
-    formData.username = formData.username.trimEnd();
-    const username = formData.username.replace(/ /g, "_").toLowerCase();
-
-    try {
-      const response = await fetch(url + "api/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: username,
-          password: formData.password,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert("Login failed: " + (errorData.detail || "Unknown error"));
-        setLoading(false);
-        return;
-      }
-
-      const data = await response.json();
-      localStorage.setItem("access", data.access);
-      localStorage.setItem("refresh", data.refresh);
-      localStorage.setItem("user_id", data.user_id);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("resume_url", data.resume_url);
-      localStorage.setItem("skills", JSON.stringify(data.skills));
-
-      const userType = await fetchUserType();
-      setLoading(false);
-      if (userType?.is_candidate) window.location.href = "/candidate";
-      if (userType?.is_recruiter) window.location.href = "/recruiter";
-    } catch (error) {
-      alert("Some error occurred during login");
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await loginUser();
-  };
 
   const logout = () => {
     setLoading(true);
@@ -122,273 +52,122 @@ export const Navbar = () => {
   };
 
   return (
-    <div>
+    <>
       {loading && (
         <div className="fullscreen-loader">
           <img src={loader} alt="Loading..." />
         </div>
       )}
 
-      <nav className="navbar-container">
-        <div className="navbar-logo-section">
-          <Link to="/"><img src={logo} alt="" /></Link>
-          <h3>
-            <Link to="/">JobNector</Link>
-          </h3>
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Link to="/" className="navbar-logo">
+            <img src={logo} alt="JobNector" />
+            <span>JobNector</span>
+          </Link>
         </div>
 
-        <div className="navbar-links">
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li className="custom-dropdown">
-              <div className="label">Jobs</div>
-              <ul className="options">
-                <li>Jobs in Noida</li>
-                <li>Jobs in Delhi</li>
-                <li>Jobs in Gurugram</li>
-                <li>Jobs in Banglore</li>
-              </ul>
-            </li>
-            <li>
-              <Link to="/">Contact</Link>
-            </li>
-          </ul>
+        {/* Mobile Toggle Button */}
+        <div className="hamburger" onClick={toggleSidebar}>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
+        <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+          <div className="close-btn" onClick={toggleSidebar}>
+            ×
+          </div>
+          <Link to="/" onClick={toggleSidebar}>
+            Home
+          </Link>
+          <div className="sidebar-dropdown">
+            <div className="dropdown-toggle" onClick={toggleJobsDropdown}>
+              Jobs &nbsp; {jobsDropdownOpen ? "▲" : "▼"}
+            </div>
+            {jobsDropdownOpen && (
+              <div className="dropdown-menu">
+                <Link to="/jobs/tech" onClick={toggleSidebar}>
+                  Tech Jobs
+                </Link>
+                <Link to="/jobs/design" onClick={toggleSidebar}>
+                  Design Jobs
+                </Link>
+                <Link to="/jobs/marketing" onClick={toggleSidebar}>
+                  Marketing Jobs
+                </Link>
+              </div>
+            )}
+          </div>
 
-        <div className="navbar-btns">
-          {authenticated ? (
-            <div className="navbar-profile">
-              <Link
-                to="/notification"
-                style={{ border: "none", margin: 0, padding: 0 }}
-              >
-                <img
-                  src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png"
-                  alt=""
-                />
-              </Link>
-              <span
-                style={{ display: "flex", gap: "10px", alignItems: "center" }}
-              >
-                <Link to="/profile">
+          <Link to="/about" onClick={toggleSidebar}>
+            About
+          </Link>
+          <Link to="/contact" onClick={toggleSidebar}>
+            Contact
+          </Link>
+        </div>
+        <ul className={`navbar-menu ${menuOpen ? "active" : ""}`}>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li
+            className="navbar-dropdown"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <span>Jobs</span>
+            <ul
+              className={`navbar-dropdown-menu ${
+                dropdownOpen ? "dropdown-active" : ""
+              }`}
+            >
+              <li>
+                <Link to="#">Noida</Link>
+              </li>
+              <li>
+                <Link to="#">Delhi</Link>
+              </li>
+              <li>
+                <Link to="#">Gurugram</Link>
+              </li>
+              <li>
+                <Link to="#">Bangalore</Link>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
+
+          <div className="navbar-actions">
+            {authenticated ? (
+              <>
+                <Link to="/notification" className="navbar-notif-icon">
                   <img
-                    src={
-                      localStorage.getItem("profile")
-                        ? localStorage.getItem("profile")
-                        : "https://cdn-icons-png.flaticon.com/512/7915/7915522.png"
-                    }
-                    alt=""
+                    src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png"
+                    alt="Notifications"
                   />
                 </Link>
-              </span>
-              <Link onClick={logout} id="logout-btn">
-                Logout
-              </Link>
-            </div>
-          ) : (
-            <>
-              <Link
-                onClick={() =>
-                  (document.getElementById(
-                    "navbar-login-section"
-                  ).style.display = "flex")
-                }
-                id="navbar-login-btn"
-              >
+                <Link to="/profile" className="navbar-profile-pic">
+                  <img
+                    src={
+                      localStorage.getItem("profile") ||
+                      "https://cdn-icons-png.flaticon.com/512/7915/7915522.png"
+                    }
+                    alt="Profile"
+                  />
+                </Link>
+                <button onClick={logout} className="navbar-logout-btn">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login-signup" className="navbar-login-btn">
                 Login
               </Link>
-              <Link
-                onClick={() =>
-                  (document.getElementById(
-                    "navbar-signup-section"
-                  ).style.display = "flex")
-                }
-                id="navbar-register-btn"
-              >
-                Register
-              </Link>
-            </>
-          )}
-        </div>
+            )}
+          </div>
+        </ul>
       </nav>
-
-      {/* LOGIN SECTION */}
-      <div className="nav-login" id="navbar-login-section">
-        <div className="nav-login-left">
-          <b
-            onClick={() =>
-              (document.getElementById("navbar-login-section").style.display =
-                "none")
-            }
-          >
-            X
-          </b>
-          <span>
-            <img src={logo} alt="" />
-            <label>JobNector</label>
-          </span>
-          <div className="nav-login-left-content">
-            <h1>Login to Your Account</h1>
-            <p>Login using social networks</p>
-            <span>
-              <i>
-                <FaFacebook />
-              </i>
-              <i>
-                <FaInstagram />
-              </i>
-              <i>
-                <FaGithub />
-              </i>
-              <i>
-                <FcGoogle />
-              </i>
-            </span>
-            <hr />
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="Enter username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-              <br />
-              <br />
-              <div className="password-container">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-                <i
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="eye-icon"
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </i>
-              </div>
-              <br />
-              <br />
-              <button type="submit">Sign In</button>
-            </form>
-          </div>
-        </div>
-
-        <div className="nav-login-right">
-          <b
-            onClick={() =>
-              (document.getElementById("navbar-login-section").style.display =
-                "none")
-            }
-          >
-            X
-          </b>
-          <div className="nav-login-right-content">
-            <h1>New Here?</h1>
-            <p>Sign up and discover a great amount of new opportunity</p>
-            <button>
-              <Link
-                onClick={() => {
-                  document.getElementById(
-                    "navbar-login-section"
-                  ).style.display = "none";
-                  document.getElementById(
-                    "navbar-signup-section"
-                  ).style.display = "flex";
-                }}
-              >
-                Sign up
-              </Link>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* SIGNUP SECTION */}
-      <div className="nav-signup" id="navbar-signup-section">
-        <div className="nav-signup-right">
-          <b
-            onClick={() =>
-              (document.getElementById("navbar-signup-section").style.display =
-                "none")
-            }
-          >
-            X
-          </b>
-          <div className="nav-signup-right-content">
-            <h1>Welcome Back!</h1>
-            <p>
-              To keep connected with us please login with your personal info.
-            </p>
-            <button>
-              <Link
-                onClick={() => {
-                  document.getElementById(
-                    "navbar-login-section"
-                  ).style.display = "flex";
-                  document.getElementById(
-                    "navbar-signup-section"
-                  ).style.display = "none";
-                }}
-              >
-                Sign In
-              </Link>
-            </button>
-          </div>
-        </div>
-
-        <div className="nav-signup-left">
-          <b
-            onClick={() =>
-              (document.getElementById("navbar-signup-section").style.display =
-                "none")
-            }
-          >
-            X
-          </b>
-          <span>
-            <img src={logo} alt="" />
-            <label>JobNector</label>
-          </span>
-          <div className="nav-signup-left-content">
-            <h1>Create Account</h1>
-            <div className="nav-signup-left-content-section">
-              <button>
-                <Link
-                  to="/register/candidate"
-                  onClick={() =>
-                    (document.getElementById(
-                      "navbar-signup-section"
-                    ).style.display = "none")
-                  }
-                >
-                  Create account as Candidate
-                </Link>
-              </button>
-              <br />
-              <button>
-                <Link
-                  to="/register"
-                  onClick={() =>
-                    (document.getElementById(
-                      "navbar-signup-section"
-                    ).style.display = "none")
-                  }
-                >
-                  Create account as Recruiter
-                </Link>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };

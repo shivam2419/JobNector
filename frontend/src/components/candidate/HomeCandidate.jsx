@@ -42,12 +42,11 @@ export const HomeCandidate = () => {
     let storedSkills = [];
     try {
       storedSkills = storedSkillsRaw ? JSON.parse(storedSkillsRaw) : [];
+      const cleanedSkills = storedSkills.map((skill) => cleanSkill(skill));
+      setKeywords(cleanedSkills);
     } catch (e) {
       console.error("Failed to parse skills from localStorage:", e);
     }
-
-    const cleanedSkills = storedSkills.map((skill) => cleanSkill(skill));
-    setKeywords(cleanedSkills);
   }, []);
 
   useEffect(() => {
@@ -99,21 +98,21 @@ export const HomeCandidate = () => {
       type: "Certification course",
       heading: "Master the in Demand Skills!",
       desc: "Get certified and level-up your resume",
-      link: "/",
+      link: "/candidate",
     },
     {
       id: 2,
       type: "Training",
       heading: "When the summer starts to sizzle, Be prepared not to fizzle",
       desc: "Get 55%+10% OFF on online summer trainings",
-      link: "/",
+      link: "/candidate",
     },
     {
       id: 3,
       type: "Internships",
       heading: "Mega Internship Sprint",
       desc: "Apply everyday to unlock premium internships",
-      link: "/",
+      link: "/candidate",
     },
   ];
   const formatUsername = (username) => {

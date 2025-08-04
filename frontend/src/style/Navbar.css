@@ -1,393 +1,193 @@
-.fullscreen-loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-.fullscreen-loader img {
-  height: 100px;
-  width: 100px;
-}
-.navbar-container {
+/* Navbar.css */
+
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
-  flex-wrap: wrap;
+  background-color: white;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
-.navbar-logo-section {
+
+.navbar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-.navbar-logo-section img {
-  height: 40px;
-  width: 40px;
-}
-.navbar-logo-section h3 {
-  font-family: "Montserrat", sans-serif;
-}
-.navbar-logo-section h3 a {
-  color: black;
-}
-.navbar-links ul {
-  display: flex;
-}
-.navbar-links ul li {
-  list-style-type: none;
-}
-/* Container for dropdown */
-.custom-dropdown {
-  position: relative;
-  cursor: pointer;
-  margin-left: 50px;
-  height: 20px;
+  text-decoration: none;
 }
 
-/* Dropdown label */
-.custom-dropdown .label {
-  color: black;
+.navbar-logo img {
+  height: 50px;
+  margin-right: 10px;
 }
 
-/* Dropdown options (hidden by default) */
-.custom-dropdown .options {
+.hamburger {
   display: none;
-  position: absolute;
-  top: 100%; /* just below the label */
-  left: 0;
-  background-color: white;
-  color: black;
-  min-width: 180px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  margin-top: 4px;
-  z-index: 1000;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.hamburger div {
+  width: 35px;
+  height: 5px;
+  background-color: black;
+  margin: 6px 0;
+  transition: all 0.3s ease;
+}
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Hidden by default */
+  height: 100vh;
+  width: 250px;
+  background-color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  transition: right 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  margin: 15px 0;
+  font-size: 1.1rem;
+}
+.sidebar-dropdown {
+  margin: 10px 0;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  color: white;
+}
+
+.dropdown-menu {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-btn {
+  font-size: 2rem;
+  align-self: flex-end;
+  cursor: pointer;
+  color: white;
+}
+.navbar-menu {
   list-style: none;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin: 0;
   padding: 0;
 }
 
-/* Individual option styling */
-.custom-dropdown .options li {
-  padding: 10px 15px;
-  color: #333;
+.navbar-menu li {
+  position: relative;
+}
+
+.navbar-menu a,
+.navbar-menu span {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  padding: 8px 10px;
+  transition: all 0.3s ease;
   cursor: pointer;
 }
 
-.custom-dropdown .options li:hover {
-  background-color: #ddd;
+.navbar-menu a:hover,
+.navbar-menu span:hover {
+  color: #1a1a3a;
 }
 
-/* Show options on hover */
-.custom-dropdown:hover .options {
+.navbar-dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #1a1a3a;
+  top: 100%;
+  left: 0;
+  min-width: 150px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  border-radius: 6px;
+}
+
+.navbar-dropdown-menu li a {
+  display: block;
+  padding: 10px;
+  color: white;
+}
+
+.navbar-dropdown-menu li a:hover {
+  background-color: #333366;
+  color: #00ffb3;
+}
+
+.navbar-dropdown:hover .navbar-dropdown-menu {
   display: block;
 }
 
-.navbar-links ul li a {
-  text-decoration: none;
-  color: black;
-  padding: 5px;
-  margin-left: 50px;
-}
-.navbar-links ul li a:hover {
-  border-bottom: 1px solid black;
-}
-.navbar-btns {
+.navbar-actions {
   display: flex;
-}
-.navbar-btns a {
-  text-decoration: none;
-}
-#navbar-login-btn {
-  border: 1px solid rgb(0, 113, 226);
-  color: rgb(0, 113, 226);
-  width: 100px;
-  text-align: center;
-  padding: 8px;
-  background-color: white;
-  cursor: pointer;
-}
-#navbar-register-btn {
-  background-color: rgb(0, 113, 226);
-  color: white;
-  margin-left: 20px;
-  text-align: center;
-  width: 100px;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-}
-#logout-btn {
-  border: 1px solid blue;
-  padding: 8px;
-  color: blue;
-}
-.navbar-btns .navbar-profile {
-  display: flex;
-  gap: 10px;
   align-items: center;
-}
-.navbar-btns .navbar-profile img{
-  height: 40px;
-}
-/* Login System */
-.nav-login,
-.nav-signup {
-  display: flex;
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  margin: auto;
-  margin-top: 10px;
-  height: 80vh;
-  justify-content: center;
-}
-.nav-login-left {
-  width: 40%;
-  background-color: white;
-  color: black;
-  padding: 20px;
-  border: 2px solid rgb(167, 167, 167);
-  border-radius: 10px 0px 0px 10px;
-  border-right: none;
-}
-.nav-signup-left {
-  width: 40%;
-  background-color: white;
-  color: black;
-  padding: 20px;
-  border: 2px solid rgb(167, 167, 167);
-  border-radius: 0px 10px 10px 0px;
-  border-right: left;
-}
-.nav-login-left b,
-.nav-signup-left b {
-  float: right;
-  font-size: 20px;
-  display: none;
-}
-.nav-login-left span,
-.nav-signup-left span {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.nav-login-left img,
-.nav-signup-left img {
-  height: 50px;
-}
-.nav-login-left label,
-.nav-signup-left label {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-}
-.nav-login-left-content,
-.nav-signup-left-content {
-  text-align: center;
-  width: 70%;
-  margin: auto;
-}
-.nav-login-left-content h1 {
-  font-size: 40px;
-}
-.nav-login-left-content p {
-  font-size: 18px;
-  color: grey;
-}
-.nav-login-left-content span {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 10px;
-}
-.nav-login-left-content span i{
-  font-size: 30px;
-  cursor: pointer;
-}
-.nav-login-left-content input {
-  width: 100%;
-  background-color: rgb(226, 240, 255);
-  border: none;
-  border-radius: 10px;
-  padding: 10px;
-}
-.nav-signup-left-content-section {
-  display: flex;
   gap: 20px;
 }
-.nav-signup-left-content-section button {
-  width: 250px;
-}
-/* Wrap the input + eye icon */
-.password-container {
-  position: relative;
-  margin: auto;
-}
 
-/* Style for the password input */
-.password-container input {
-  width: 100%;
-  background-color: rgb(226, 240, 255);
-  border: none;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-/* Eye icon styling */
-.eye-icon {
-  position: absolute;
-  top: 50%;
-  right: 0px;
-  transform: translateY(-50%);
+.navbar-login-btn,
+.navbar-logout-btn {
+  padding: 8px 16px;
+  border: 2px solid #1a1a3a;
+  border-radius: 5px;
+  color: #0a0a23;
+  font-weight: bold;
   cursor: pointer;
-  color: gray;
+  transition: 0.3s ease;
+  text-decoration: none;
 }
 
-.nav-login-left-content button,
-.nav-signup-left-content button {
-  border: none;
-  padding: 10px;
-  background-color: rgb(0, 113, 226);
+.navbar-login-btn:hover,
+.navbar-logout-btn:hover {
+  background-color: #1a1a3a;
   color: white;
-  border-radius: 10px;
-  width: 200px;
-  margin-bottom: 10px;
-}
-.nav-login-left-content hr,
-.nav-signup-left-content hr {
-  width: 70%;
 }
 
-.nav-login-right {
-  background: url("https://i.pinimg.com/736x/ed/22/ab/ed22ab9cdd0fbc2ed1bbd2313e1372aa.jpg");
-  background-size: cover;
-  padding: 20px;
-  width: 20%;
-  border: 2px solid rgb(167, 167, 167);
-  border-radius: 0px 10px 10px 0px;
-  border-left: none;
-}
-.nav-signup-right {
-  background: url("https://img.freepik.com/premium-photo/simple-blue-background-with-white-circle_1332213-28500.jpg?semt=ais_hybrid&w=740");
-  background-size: cover;
-  padding: 20px;
-  width: 20%;
-  border: 2px solid rgb(167, 167, 167);
-  border-radius: 10px 0px 0px 10px;
-  border-right: none;
-}
-.nav-login-right b {
-  float: right;
-  color: white;
-  font-size: 25px;
-  cursor: pointer;
-}
-.nav-signup-right b {
-  color: white;
-  font-size: 25px;
-  cursor: pointer;
-  position: fixed;
-}
-.nav-login-right-content,
-.nav-signup-right-content {
-  margin-top: 65%;
-  text-align: center;
-  color: white;
-}
-.nav-login-right-content button,
-.nav-signup-right-content button {
-  background-color: white;
-  border: none;
-  padding: 10px;
-  width: 200px;
-  border-radius: 10px;
-  margin-top: 30px;
-}
-.nav-login-right-content button a,
-.nav-signup-right-content button a {
-  color: rgb(6, 0, 76);
-}
-/* Responsive Navbar */
-@media (max-width: 1024px) {
-  .navbar-links ul {
-    display: none;
-  }
-  .nav-login-right,
-  .nav-signup-right {
-    width: 30%;
-  }
-}
+/* Mobile responsive */
 
 @media (max-width: 768px) {
-  .navbar-links ul {
+  .hamburger {
+    display: flex;
+  }
+  .navbar-menu {
     display: none;
-  }
-  .nav-login-right,
-  .nav-signup-right {
-    display: none;
-  }
-  .nav-login-left-content h1 {
-    font-size: 30px;
-  }
-  .nav-login-left,
-  .nav-signup-left {
-    width: 80vw;
-    border: 2px solid gray;
-  }
-  .nav-login-left b,
-  .nav-signup-left b {
-    display: block;
-  }
-  .nav-login-left-content,
-.nav-signup-left-content {
-  width: 90%;
-}
-  /* Optional: Add hamburger menu icon here for mobile */
-}
-
-@media (max-width: 550px) {
-  #navbar-login-btn {
-    width: 70px;
-    padding: 10px;
-  }
-  #navbar-register-btn {
-    width: 70px;
-    padding: 12px;
-  }
-  .navbar-logo-section img {
-    height: fit-content;
-    width: 70px;
-  }
-  .navbar-logo-section h3 {
-    display: none;
-  }
-  .navbar-btns .navbar-profile {
-    gap: 10px;
-  }
-  .navbar-btns .navbar-profile img {
-    height: 30px;
-  }
-  .navbar-logo-section h3 {
-    font-size: 16px;
+    flex-direction: column;
+    gap: 15px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 999;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
 
-  .navbar-btns a:nth-child(1) {
-    width: 30px;
-    font-size: 14px;
+  .navbar-menu.open {
+    display: flex;
   }
-  .navbar-btns a:nth-child(2) {
-    width: auto;
-    font-size: 14px;
-  }
-  #logout-btn {
-    padding: 5px;
-    font-size: 14px;
+
+  .navbar-actions {
+    display: none;
   }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import { Home } from "./components/Home";
+import LoginSignup from "./components/LoginSignup";
 import { HomeCandidate } from "./components/candidate/HomeCandidate";
 import { RecruiterFormWizard } from "./components/recruiter/RecruiterFormWizard";
 import RecruiterHome from "./components/recruiter/RecruiterHome";
@@ -21,7 +22,7 @@ const App = () => (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-
+        <Route path='/login-signup' element={<LoginSignup />} />
         {/* Protected routes wrapped with PrivateRoute */}
         <Route element={<PrivateRoute />}>
         {/* Candidate  pages from here */}
