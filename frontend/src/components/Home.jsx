@@ -92,7 +92,7 @@ export const Home = () => {
             "Frontend Developer",
           ].map((job, index) => (
             <div className="job-card" key={index}>
-              <p className="job-title">{job}</p>
+              <h3 className="job-title">{job}</h3>
               <span className="job-count">150+ Jobs Available</span>
             </div>
           ))}
@@ -150,7 +150,7 @@ export const Home = () => {
             explanations, personalized assistance, and the support you need to
             move forward with confidence.<br/><br/> We’re just a message or call away —
             connect with us at <b>yourjobnector@gmail.com</b> or reach out by phone at
-            <b>+91-9900110011</b>. We're committed to helping you every step of the
+            <b> +91-9900110011</b>. We're committed to helping you every step of the
             way.
           </p>
         </div>

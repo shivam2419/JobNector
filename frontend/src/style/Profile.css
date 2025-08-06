@@ -43,3 +43,9 @@
 .profile-container button:hover {
   background-color: #555;
 }
+
+@media (max-width: 768px) {
+  .profile-container {
+    margin: 3%;
+  }
+}

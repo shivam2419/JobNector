@@ -100,8 +100,11 @@
   background: #f3f4f6;
   padding: 1.5rem;
   border-radius: 0.75rem;
+  width: auto;
 }
-
+.job-count {
+  color: black;
+}
 /* Testimonials */
 .testimonials-section {
   background: #f9fafb;
@@ -203,6 +206,8 @@
 
   .job-type-grid {
     grid-template-columns: 1fr;
+    align-items: center;
+    justify-content: center;
   }
 
   .faq-section {

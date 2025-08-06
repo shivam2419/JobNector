@@ -76,56 +76,58 @@ function LoginSignup() {
   };
 
   return (
-    <div className="login-signup-container">
-      {loading && (
-        <div className="loader-overlay">
-          <center>
-            <img
-              src={Loader}
-              alt=""
-              style={{ height: "100px", margin: "2%" }}
-            />
-          </center>
+    <div>
+      <div className="login-signup-container">
+        {loading && (
+          <div className="loader-overlay">
+            <center>
+              <img
+                src={Loader}
+                alt=""
+                style={{ height: "100px", margin: "2%" }}
+              />
+            </center>
+          </div>
+        )}
+        <div className="form-box">
+          <h2>{isLogin ? "Login" : "Signup"}</h2>
+          <form onSubmit={handleSubmit}>
+            {!isLogin && (
+              <div className="signup-option-section">
+                <Link to="/register">Signup as recruiter</Link>
+                <Link to="/register/candidate">Singup as candidate</Link>
+              </div>
+            )}
+            {isLogin && (
+              <div>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  required
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <button type="submit">
+                  {loading ? "Logging in..." : "Login"}
+                </button>
+              </div>
+            )}
+          </form>
+          <p onClick={() => setIsLogin(!isLogin)}>
+            {isLogin
+              ? "Don't have an account? Signup"
+              : "Already have an account? Login"}
+          </p>
         </div>
-      )}
-      <div className="form-box">
-        <h2>{isLogin ? "Login" : "Signup"}</h2>
-        <form onSubmit={handleSubmit}>
-          {!isLogin && (
-            <div className="signup-option-section">
-              <Link to="/register">Signup as recruiter</Link>
-              <Link to="/register/candidate">Singup as candidate</Link>
-            </div>
-          )}
-          {isLogin && (
-            <div>
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                required
-                value={formData.username}
-                onChange={handleChange}
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-              />
-              <button type="submit">
-                {loading ? "Loging in..." : "Login"}
-              </button>
-            </div>
-          )}
-        </form>
-        <p onClick={() => setIsLogin(!isLogin)}>
-          {isLogin
-            ? "Don't have an account? Signup"
-            : "Already have an account? Login"}
-        </p>
       </div>
     </div>
   );

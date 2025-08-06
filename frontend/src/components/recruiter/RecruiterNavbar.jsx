@@ -36,7 +36,7 @@ const RecruiterNavbar = () => {
       <div className={`navbar-links ${isOpen ? "open" : ""}`}>
         <div className="navbar-left">
           <Link to="/recruiter-dashboard">Dashboard</Link>
-          <Link to="/post-job">Post a Job</Link>
+          <Link to="/post-job">Post Job</Link>
           <Link to="/posted-jobs">View Applicants</Link>
         </div>
         <div className="navbar-right">

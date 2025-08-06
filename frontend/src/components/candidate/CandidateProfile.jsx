@@ -113,94 +113,96 @@ const CandidateProfile = () => {
     return <div className="profile-container">Loading...</div>;
 
   return (
-    <div className="profile-container">
-      <h2>Candidate Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Phone Number:
-          <input
-            name="phone_number"
-            value={formData.phone_number || ""}
-            onChange={handleChange}
-          />
-        </label>
+    <div>
+      <div className="profile-container">
+        <h2>Candidate Profile</h2>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Phone Number:
+            <input
+              name="phone_number"
+              value={formData.phone_number || ""}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          City:
-          <input
-            name="city"
-            value={formData.city || ""}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            City:
+            <input
+              name="city"
+              value={formData.city || ""}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          State:
-          <input
-            name="state"
-            value={formData.state || ""}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            State:
+            <input
+              name="state"
+              value={formData.state || ""}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          Country:
-          <input
-            name="country"
-            value={formData.country || ""}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            Country:
+            <input
+              name="country"
+              value={formData.country || ""}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          Qualification:
-          <input
-            name="qualification"
-            value={formData.qualification || ""}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            Qualification:
+            <input
+              name="qualification"
+              value={formData.qualification || ""}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          School:
-          <input
-            name="school"
-            value={formData.school || ""}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            School:
+            <input
+              name="school"
+              value={formData.school || ""}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          Pass Out Year:
-          <input
-            name="pass_out_year"
-            value={formData.pass_out_year || ""}
-            onChange={handleChange}
-          />
-        </label>
+          <label>
+            Pass Out Year:
+            <input
+              name="pass_out_year"
+              value={formData.pass_out_year || ""}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          Upload New Resume: (
-          <a
-            href={backendUrl + formData.resume}
-            target="_blank"
-            rel="noreferrer"
-            style={{ color: "blue" }}
-          >
-            Current Resume
-          </a>
-          )
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={(e) => setResumeFile(e.target.files[0])}
-          />
-        </label>
+          <label>
+            Upload New Resume: (
+            <a
+              href={backendUrl + formData.resume}
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: "blue" }}
+            >
+              Check Current Resume
+            </a>
+            )
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={(e) => setResumeFile(e.target.files[0])}
+            />
+          </label>
 
-        <button type="submit">
-          {updated ? "Update Profile" : "Updating..."}
-        </button>
-      </form>
+          <button type="submit">
+            {updated ? "Update Profile" : "Updating..."}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

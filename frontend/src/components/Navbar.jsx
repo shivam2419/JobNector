@@ -45,6 +45,8 @@ export const Navbar = () => {
     setLoading(true);
     localStorage.removeItem("access");
     localStorage.removeItem("username");
+    setSidebarOpen(false);
+    setAuthenticated(false);
     setTimeout(() => {
       setLoading(false);
       window.location.href = "/";
@@ -55,7 +57,7 @@ export const Navbar = () => {
     <>
       {loading && (
         <div className="fullscreen-loader">
-          <img src={loader} alt="Loading..." />
+          <center><img src={loader} alt="Loading..." /></center>
         </div>
       )}
 
@@ -77,12 +79,12 @@ export const Navbar = () => {
           <div className="close-btn" onClick={toggleSidebar}>
             ×
           </div>
-          <Link to="/" onClick={toggleSidebar}>
-            Home
+          <Link to="/candidate" onClick={toggleSidebar}>
+            Dashboard
           </Link>
           <div className="sidebar-dropdown">
             <div className="dropdown-toggle" onClick={toggleJobsDropdown}>
-              Jobs &nbsp; {jobsDropdownOpen ? "▲" : "▼"}
+              Jobs &nbsp; <span>{jobsDropdownOpen ? "▲" : "▼"}</span>
             </div>
             {jobsDropdownOpen && (
               <div className="dropdown-menu">
@@ -104,6 +106,9 @@ export const Navbar = () => {
           </Link>
           {authenticated ? (
               <>
+                <Link to="/profile" onClick={toggleSidebar}>
+                  Profile
+                </Link>
                 <button onClick={logout} className="sidebar-logout-btn">
                   Logout
                 </button>
@@ -151,8 +156,9 @@ export const Navbar = () => {
               <>
                 <Link to="/notification" className="navbar-notif-icon">
                   <img
-                    src="https://static-00.iconduck.com/assets.00/notification-icon-923x1024-wyajkziy.png"
+                    src="https://cdn-icons-png.flaticon.com/512/6610/6610575.png"
                     alt="Notifications"
+                    height={40}
                   />
                 </Link>
                 <Link to="/profile" className="navbar-profile-pic">
@@ -162,6 +168,7 @@ export const Navbar = () => {
                       "https://cdn-icons-png.flaticon.com/512/7915/7915522.png"
                     }
                     alt="Profile"
+                    height={40}
                   />
                 </Link>
                 <button onClick={logout} className="navbar-logout-btn">
@@ -170,7 +177,7 @@ export const Navbar = () => {
               </>
             ) : (
               <Link to="/login-signup" className="navbar-login-btn">
-                Login
+                LogIn
               </Link>
             )}
           </div>
