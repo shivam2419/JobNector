@@ -192,6 +192,7 @@ export const CandidateFormWizard = () => {
     );
   }
   return (
+    <div className="user-signup-main-container">
     <div className="user-signup-form-container">
       <h1>Candidate Registration Form</h1>
 
@@ -352,6 +353,7 @@ export const CandidateFormWizard = () => {
           </>
         )}
       </form>
+    </div>
     </div>
   );
 };

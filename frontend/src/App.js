@@ -17,12 +17,16 @@ import RecruiterDashboard from "./components/recruiter/RecruiterDashboard";
 import EditJob from "./components/recruiter/EditJob";
 import RecruiterProfile from "./components/recruiter/RecruiterProfile";
 import CandidateProfile from "./components/candidate/CandidateProfile";
+import About from "./components/About";
+import Contact from "./components/Contact";
 const App = () => (
   <Router>
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path='/login-signup' element={<LoginSignup />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
         {/* Protected routes wrapped with PrivateRoute */}
         <Route element={<PrivateRoute />}>
         {/* Candidate  pages from here */}

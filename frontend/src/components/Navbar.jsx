@@ -80,7 +80,7 @@ export const Navbar = () => {
             ×
           </div>
           <Link to="/candidate" onClick={toggleSidebar}>
-            Dashboard
+            Home
           </Link>
           <div className="sidebar-dropdown">
             <div className="dropdown-toggle" onClick={toggleJobsDropdown}>
@@ -103,6 +103,9 @@ export const Navbar = () => {
 
           <Link to="/about" onClick={toggleSidebar}>
             About
+          </Link>
+          <Link to="/contact" onClick={toggleSidebar}>
+            Contact
           </Link>
           {authenticated ? (
               <>
@@ -149,6 +152,9 @@ export const Navbar = () => {
           </li>
           <li>
             <Link to="/contact">Contact</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
           </li>
 
           <div className="navbar-actions">

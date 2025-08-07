@@ -8,6 +8,7 @@ function LoginSignup() {
   const [loading, setLoading] = useState(false);
   const username = localStorage.getItem("username");
   const [isLogin, setIsLogin] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -108,14 +109,24 @@ function LoginSignup() {
                   value={formData.username}
                   onChange={handleChange}
                 />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                />
+
+                <div className="password-input-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <span
+                    className="eye-toggle"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    {showPassword ? "👁️" : "🙈"}
+                  </span>
+                </div>
+
                 <button type="submit">
                   {loading ? "Logging in..." : "Login"}
                 </button>

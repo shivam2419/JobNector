@@ -1,3 +1,6 @@
+.user-signup-main-container {
+  margin: 2%;
+}
 .user-signup-form-container {
   max-width: 600px;
   margin: 40px auto;
@@ -16,7 +19,7 @@
 
 .user-signup-form-container input,
 .user-signup-form-container select {
-  width: 100%;
+  width: 90%;
   padding: 12px 14px;
   margin-bottom: 20px;
   border: 1px solid #ddd;

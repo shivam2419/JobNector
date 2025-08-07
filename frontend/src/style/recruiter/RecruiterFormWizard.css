@@ -1,3 +1,6 @@
+.signup-main-container {
+  margin: 2%;
+}
 .signup-form-container {
   max-width: 600px;
   margin: auto;
@@ -21,7 +24,7 @@
 
 .recruiter-signup-form input {
   display: block;
-  width: 100%;
+  width: 95%;
   padding: 12px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
